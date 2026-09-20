@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<<<<<<< HEAD
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ApotekApp.ObatPage" BackgroundColor="#F1F3F5">
 <Grid RowDefinitions="Auto,Auto,*" Padding="20">
     <HorizontalStackLayout Grid.Row="0" Spacing="8" HorizontalOptions="End" Margin="0,0,0,12">
@@ -17,6 +18,23 @@
                 <Label Text="NO" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="1" Text="KODE" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="2" Text="NAMA OBAT" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="3" Text="STOK" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="4" Text="SATUAN" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="5" Text="HARGA JUAL" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="6" Text="AKSI" FontAttributes="Bold" TextColor="#334155"/>
             </Grid>
             <CollectionView Grid.Row="1" x:Name="CvObatList" SelectionMode="None" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" MinimumHeightRequest="260" SizeChanged="OnObatListSizeChanged">
+=======
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ApotekApp.ObatPage" BackgroundColor="#F8FAFC">
+<Grid RowDefinitions="Auto,Auto,*" Padding="24">
+    <HorizontalStackLayout Grid.Row="0" Spacing="8" HorizontalOptions="End" Margin="0,0,0,12">
+            <Button Text="🔄  Refresh" Clicked="OnRefreshClicked" BackgroundColor="White" TextColor="#334155" BorderColor="#CBD5E1" BorderWidth="1" CornerRadius="8" HeightRequest="42" Padding="16,0" />
+            <Button Text="Import CSV" Clicked="OnImportClicked" BackgroundColor="#008000" TextColor="White"/>
+            <Button Text="Export CSV" Clicked="OnExportClicked" BackgroundColor="#FF0000" TextColor="White"/>
+            <Button Text="+ Tambah Obat" Clicked="OnTambahObatClicked" BackgroundColor="#2563EB" TextColor="White"/>
+    </HorizontalStackLayout>
+    <Entry Grid.Row="1" x:Name="TxtSearch" Placeholder="Cari kode, nama, barcode atau kategori..." TextChanged="OnSearchTextChanged" Margin="0,0,0,12"/>
+    <Border Grid.Row="2" BackgroundColor="White" Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="0" VerticalOptions="FillAndExpand">
+        <Grid RowDefinitions="Auto,*">
+            <Grid Grid.Row="0" Padding="12" ColumnDefinitions="55,120,*,90,100,130,170" BackgroundColor="#E2E8F0">
+                <Label Text="NO" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="1" Text="KODE" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="2" Text="NAMA OBAT" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="3" Text="STOK" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="4" Text="SATUAN" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="5" Text="HARGA JUAL" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="6" Text="AKSI" FontAttributes="Bold" TextColor="#334155"/>
+            </Grid>
+            <CollectionView Grid.Row="1" x:Name="CvObatList" SelectionMode="None" VerticalOptions="FillAndExpand" MinimumHeightRequest="260">
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 <CollectionView.EmptyView>
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <Label Text="Data obat belum tersedia" FontSize="16" FontAttributes="Bold" TextColor="#64748B" HorizontalTextAlignment="Center"/>
@@ -25,7 +43,11 @@
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+<<<<<<< HEAD
                         <Grid Padding="10,8" ColumnDefinitions="45,90,2.2*,75,80,110,210" BackgroundColor="White" HeightRequest="52">
+=======
+                        <Grid Padding="10,8" ColumnDefinitions="55,120,*,90,100,130,170" BackgroundColor="White" HeightRequest="48">
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                             <Label Text="{Binding No}" TextColor="#475569" VerticalOptions="Center"/>
                             <Label Grid.Column="1" Text="{Binding KodeObat}" TextColor="#334155" VerticalOptions="Center"/>
                             <Label Grid.Column="2" Text="{Binding NamaObat}" TextColor="#0F172A" FontAttributes="Bold" VerticalOptions="Center" LineBreakMode="TailTruncation"/>
@@ -33,14 +55,20 @@
                             <Label Grid.Column="4" Text="{Binding Satuan}" TextColor="#334155" VerticalOptions="Center"/>
                             <Label Grid.Column="5" Text="{Binding HargaFormatted}" TextColor="#0F172A" VerticalOptions="Center"/>
                             <HorizontalStackLayout Grid.Column="6" Spacing="6">
+<<<<<<< HEAD
                               <Button Text="Edit" Clicked="OnEditClicked" CommandParameter="{Binding .}" HeightRequest="34" WidthRequest="62" BackgroundColor="#F59E0B" TextColor="White"/>
                                     <Button Text="Hapus" Clicked="OnHapusClicked" BindingContext="{Binding .}" CommandParameter="{Binding Id}" HeightRequest="34" WidthRequest="72" BackgroundColor="#DC2626" TextColor="White" FontAttributes="Bold" Padding="8,0" IsEnabled="True" InputTransparent="False" ZIndex="100" />
                               <Button Text="Barcode" Clicked="OnPrintBarcodeClicked" BindingContext="{Binding .}" CommandParameter="{Binding .}" HeightRequest="34" WidthRequest="72" BackgroundColor="#334155" TextColor="White" Padding="6,0" />
+=======
+                              <Button Text="Edit" Clicked="OnEditClicked" CommandParameter="{Binding .}" HeightRequest="34" BackgroundColor="#FFA500" TextColor="#282828"/>
+                                    <Button Text="Hapus" Clicked="OnHapusClicked" CommandParameter="{Binding .}" HeightRequest="34" BackgroundColor="#FF0000" TextColor="#282828"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                                </HorizontalStackLayout>
                                     </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+<<<<<<< HEAD
             <Grid Grid.Row="2" Padding="12,10" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" BackgroundColor="#F1F3F5">
                 <Button x:Name="BtnPrevPage" Text="‹ Sebelumnya" Clicked="OnPrevPageClicked" BackgroundColor="#C7D0DA" TextColor="#334155" HeightRequest="38" Padding="14,0" IsEnabled="False"/>
                 <Label x:Name="LblPageInfo" Grid.Column="1" Text="Halaman 1 dari 1 • Menampilkan 0-0 dari 0 data" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="12" TextColor="#475569"/>
@@ -89,5 +117,26 @@
         </Border>
     </Grid>
 
+=======
+        </Grid>
+    </Border>
+    <Grid x:Name="ModalLayout" Grid.RowSpan="3" IsVisible="False" BackgroundColor="#990F172A">
+        <Border HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="560" MaximumHeightRequest="700" BackgroundColor="White" Stroke="#CBD5E1" StrokeShape="RoundRectangle 16" Padding="24">
+            <ScrollView><VerticalStackLayout Spacing="12">
+                <Grid ColumnDefinitions="*,Auto"><VerticalStackLayout><Label x:Name="LblModalTitle" Text="Tambah Obat" FontSize="21" FontAttributes="Bold" TextColor="#0F172A"/><Label Text="Lengkapi data obat dengan jelas sebelum disimpan." FontSize="12" TextColor="#64748B"/></VerticalStackLayout><Button Grid.Column="1" Text="✕" Clicked="OnBatalClicked" BackgroundColor="#F1F5F9" TextColor="#475569" WidthRequest="42" HeightRequest="42" Padding="0"/></Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="4"><Label Text="Kode Obat *" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtKode" Placeholder="Contoh: OBT001" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="4"><Label Text="Barcode" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtBarcode" Placeholder="Barcode obat" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout>
+                </Grid>
+                <VerticalStackLayout Spacing="4"><Label Text="Nama Obat *" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtNama" Placeholder="Nama lengkap obat" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12"><VerticalStackLayout Spacing="4"><Label Text="Kategori" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtKategori" Placeholder="Contoh: Analgesik" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout><VerticalStackLayout Grid.Column="1" Spacing="4"><Label Text="Lokasi Rak" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtLokasi" Placeholder="Contoh: Rak A1" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout></Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12"><VerticalStackLayout Spacing="4"><Label Text="Satuan" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtSatuan" Placeholder="Strip / Botol / Sachet" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout><VerticalStackLayout Grid.Column="1" Spacing="4"><Label Text="Stok" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtStok" Placeholder="0" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout></Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12"><VerticalStackLayout Spacing="4"><Label Text="Stok Minimum" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtStokMin" Placeholder="0" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout><VerticalStackLayout Grid.Column="1" Spacing="4"><Label Text="Tanggal Kedaluwarsa" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><DatePicker x:Name="DtpExpired" Format="dd/MM/yyyy" TextColor="#0F172A"/></Border></VerticalStackLayout></Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12"><VerticalStackLayout Spacing="4"><Label Text="Harga Beli" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtHargaBeli" Placeholder="Rp 0" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout><VerticalStackLayout Grid.Column="1" Spacing="4"><Label Text="Harga Jual" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtHargaJual" Placeholder="Rp 0" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout></Grid>
+                <HorizontalStackLayout HorizontalOptions="End" Spacing="8"><Button Text="Batal" Clicked="OnBatalClicked" BackgroundColor="#E2E8F0" TextColor="#334155"/><Button Text="💾 Simpan Data" Clicked="OnSimpanClicked" BackgroundColor="#16A34A" TextColor="White" FontAttributes="Bold"/></HorizontalStackLayout>
+            </VerticalStackLayout></ScrollView>
+        </Border>
+    </Grid>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 </Grid>
 </ContentPage>

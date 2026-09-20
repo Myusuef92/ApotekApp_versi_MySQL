@@ -1,5 +1,8 @@
 using MySqlConnector;
+<<<<<<< HEAD
 using ApotekApp.Services;
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
 namespace ApotekApp;
 
@@ -41,12 +44,17 @@ public partial class LoginPage : ContentPage
             }
 
             string stored = reader["password"]?.ToString() ?? "";
+<<<<<<< HEAD
             if (!PasswordService.Verify(password, stored))
+=======
+            if (!string.Equals(stored, password, StringComparison.Ordinal))
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
             {
                 await DisplayAlert("Login Gagal", "Username atau Password salah.", "OK");
                 return;
             }
 
+<<<<<<< HEAD
             // Legacy installations may still contain plaintext passwords. Upgrade
             // the matching account immediately after a successful login.
             if (!PasswordService.IsHashed(stored) && !PasswordService.IsEncrypted(stored))
@@ -57,6 +65,8 @@ public partial class LoginPage : ContentPage
                 await upgrade.ExecuteNonQueryAsync();
             }
 
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
             Preferences.Set("CurrentUserId", Convert.ToInt32(reader["id"]));
             Preferences.Set("CurrentUserName", reader["nama_lengkap"]?.ToString() ?? username);
             Preferences.Set("CurrentUsername", username);
@@ -68,7 +78,11 @@ public partial class LoginPage : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Koneksi Database", 
+<<<<<<< HEAD
                 "Tidak dapat terhubung ke database MySQL/MariaDB.\n\n" + ex.Message, "OK");
+=======
+                "Tidak dapat terhubung ke MySQL.\nPastikan MySQL/MariaDB XAMPP/Laragon aktif.\n\n" + ex.Message, "OK");
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
         }
     }
 

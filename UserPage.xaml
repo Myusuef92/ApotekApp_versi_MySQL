@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<<<<<<< HEAD
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ApotekApp.UserPage"
@@ -110,4 +111,28 @@
             </Border>
         </Grid>
     </Grid>
+=======
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ApotekApp.UserPage" BackgroundColor="#F8FAFC">
+<Grid RowDefinitions="Auto,Auto,*" Padding="24">
+        <HorizontalStackLayout Grid.Row="0" Spacing="8" HorizontalOptions="End" Margin="0,0,0,12">
+            <Button Text="🔄  Refresh" Clicked="OnRefreshClicked" BackgroundColor="White" TextColor="#334155" BorderColor="#CBD5E1" BorderWidth="1" CornerRadius="8" HeightRequest="42" Padding="16,0" />
+            <Button Text="+ Tambah User" Clicked="OnTambahUserClicked" BackgroundColor="#2563EB" TextColor="White"/></HorizontalStackLayout>
+    <Entry Grid.Row="1" x:Name="TxtSearch" Placeholder="Cari username, nama, atau role..." TextChanged="OnSearchTextChanged" Margin="0,0,0,12"/>
+    <Border Grid.Row="2" BackgroundColor="White" Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="0" VerticalOptions="FillAndExpand">
+        <Grid RowDefinitions="Auto,*">
+            <Grid Padding="12" ColumnDefinitions="180,*,120,170" BackgroundColor="#E2E8F0"><Label Text="USERNAME" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="1" Text="NAMA LENGKAP" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="2" Text="ROLE" FontAttributes="Bold" TextColor="#334155"/><Label Grid.Column="3" Text="AKSI" FontAttributes="Bold" TextColor="#334155"/></Grid>
+            <CollectionView Grid.Row="1" x:Name="CvUserList" VerticalOptions="FillAndExpand" MinimumHeightRequest="260"><CollectionView.EmptyView><Label Text="Data user belum tersedia" HorizontalOptions="Center" VerticalOptions="Center" TextColor="#64748B"/></CollectionView.EmptyView><CollectionView.ItemTemplate><DataTemplate><Grid Padding="10,8" ColumnDefinitions="180,*,120,170" BackgroundColor="White" HeightRequest="48"><Label Text="{Binding Username}" TextColor="#334155" VerticalOptions="Center"/><Label Grid.Column="1" Text="{Binding NamaLengkap}" TextColor="#0F172A" FontAttributes="Bold" VerticalOptions="Center"/><Label Grid.Column="2" Text="{Binding Role}" TextColor="#2563EB" FontAttributes="Bold" VerticalOptions="Center"/>
+                <HorizontalStackLayout Grid.Column="3" Spacing="6">
+                                    <Button Text="Edit" Clicked="OnEditClicked" CommandParameter="{Binding .}" HeightRequest="34" BackgroundColor="#FFA500" TextColor="#282828"/>
+                                    <Button Text="Hapus" Clicked="OnHapusClicked" CommandParameter="{Binding .}" HeightRequest="34" BackgroundColor="#FF0000" TextColor="#282828"/>
+                                </HorizontalStackLayout>
+            </Grid>
+            </DataTemplate>
+            </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Border>
+    <Grid x:Name="ModalLayout" Grid.RowSpan="3" IsVisible="False" BackgroundColor="#990F172A"><Border HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="500" BackgroundColor="White" Stroke="#CBD5E1" StrokeShape="RoundRectangle 16" Padding="24"><VerticalStackLayout Spacing="12"><Grid ColumnDefinitions="*,Auto"><VerticalStackLayout><Label x:Name="LblModalTitle" Text="Tambah User" FontSize="21" FontAttributes="Bold" TextColor="#0F172A"/><Label Text="Atur akun dan hak akses pengguna aplikasi." FontSize="12" TextColor="#64748B"/></VerticalStackLayout><Button Grid.Column="1" Text="✕" Clicked="OnBatalModalClicked" BackgroundColor="#F1F5F9" TextColor="#475569" WidthRequest="42" HeightRequest="42" Padding="0"/></Grid><VerticalStackLayout Spacing="4"><Label Text="Username *" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtUsername" Placeholder="Username login" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout><VerticalStackLayout Spacing="4"><Label Text="Nama Lengkap *" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtNama" Placeholder="Nama pengguna" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout><VerticalStackLayout Spacing="4"><Label Text="Password" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Entry x:Name="TxtPassword" Placeholder="Kosongkan jika tidak ingin mengubah" IsPassword="True" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout><VerticalStackLayout Spacing="4"><Label Text="Role / Hak Akses" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0"><Picker x:Name="CmbRole" Title="Pilih Role" TextColor="#0F172A" TitleColor="#94A3B8"><Picker.Items><x:String>Admin</x:String><x:String>Apoteker</x:String><x:String>Kasir</x:String></Picker.Items></Picker></Border></VerticalStackLayout><HorizontalStackLayout HorizontalOptions="End" Spacing="8"><Button Text="Batal" Clicked="OnBatalModalClicked" BackgroundColor="#E2E8F0" TextColor="#334155"/><Button Text="💾 Simpan User" Clicked="OnSimpanUserClicked" BackgroundColor="#16A34A" TextColor="White" FontAttributes="Bold"/></HorizontalStackLayout></VerticalStackLayout></Border></Grid>
+</Grid>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 </ContentPage>

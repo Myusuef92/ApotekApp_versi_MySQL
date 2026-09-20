@@ -2,6 +2,10 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+<<<<<<< HEAD
+=======
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -20,14 +24,23 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
+<<<<<<< HEAD
 		<ApplicationTitle>Apotek</ApplicationTitle>
+=======
+		<ApplicationTitle>ApotekApp</ApplicationTitle>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.apotekapp</ApplicationId>
 
 		<!-- Versions -->
+<<<<<<< HEAD
 		<ApplicationDisplayVersion>4.2.1</ApplicationDisplayVersion>
 		<ApplicationVersion>421</ApplicationVersion>
+=======
+		<ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
@@ -59,8 +72,11 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+<<<<<<< HEAD
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
 		<PackageReference Include="MySqlConnector" Version="2.4.0" />
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.30">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -68,7 +84,12 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+<<<<<<< HEAD
 		<PackageReference Include="System.Drawing.Common" Version="8.0.20" />
+=======
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+		<PackageReference Include="MySqlConnector" Version="2.4.0" />
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 	</ItemGroup>
 
 

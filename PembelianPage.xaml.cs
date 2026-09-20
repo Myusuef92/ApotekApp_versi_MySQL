@@ -1,10 +1,14 @@
+<<<<<<< HEAD
 using ApotekApp.Services;
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 using MySqlConnector;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace ApotekApp;
 
+<<<<<<< HEAD
 public sealed class PembelianItemModel
 {
     public int Id { get; set; }
@@ -456,4 +460,23 @@ public partial class PembelianPage : ContentPage
     }
 
     private void OnBatalClicked(object sender, EventArgs e) => ModalLayout.IsVisible = false;
+=======
+public class PembelianItemModel { public int Id{get;set;} public string NoNota{get;set;}=""; public string NamaSupplier{get;set;}=""; public string Tanggal{get;set;}=""; public decimal Total{get;set;} }
+public class PurchaseLine { public int ObatId{get;set;} public string NamaObat{get;set;}=""; public int Qty{get;set;} public decimal Harga{get;set;} public decimal Subtotal=>Qty*Harga; }
+
+public partial class PembelianPage : ContentPage
+{
+    readonly ObservableCollection<PembelianItemModel> _list=new();
+    readonly ObservableCollection<PurchaseLine> _lines=new();
+    public PembelianPage(){InitializeComponent();CvPembelianList.ItemsSource=_list;CvItemPembelian.ItemsSource=_lines;}
+    protected override async void OnAppearing(){base.OnAppearing();await LoadAsync();}
+    public async Task LoadAsync(){try{_list.Clear();using var c=new MySqlConnection(MauiProgram.ConnectionString);await c.OpenAsync();using var cmd=new MySqlCommand(@"SELECT p.IdPembelian,p.NoFaktur,p.TanggalPembelian,p.TotalHarga,s.NamaSupplier FROM pembelians p JOIN suppliers s ON s.Id=p.SupplierId ORDER BY p.TanggalPembelian DESC",c);using var r=await cmd.ExecuteReaderAsync();while(await r.ReadAsync())_list.Add(new PembelianItemModel{Id=Convert.ToInt32(r["IdPembelian"]),NoNota=r["NoFaktur"].ToString()??"",NamaSupplier=r["NamaSupplier"].ToString()??"",Tanggal=Convert.ToDateTime(r["TanggalPembelian"]).ToString("dd/MM/yyyy HH:mm"),Total=Convert.ToDecimal(r["TotalHarga"])});}catch(Exception ex){await DisplayAlert("Pembelian",ex.Message,"OK");}}
+    async void OnRefreshClicked(object s,EventArgs e)=>await LoadAsync();
+    void OnSearchTextChanged(object s,TextChangedEventArgs e){var k=e.NewTextValue?.Trim().ToLowerInvariant()??"";CvPembelianList.ItemsSource=string.IsNullOrEmpty(k)?_list:_list.Where(x=>(x.NoNota+" "+x.NamaSupplier).ToLowerInvariant().Contains(k)).ToList();}
+    async void OnTambahPembelianClicked(object s,EventArgs e){_lines.Clear();TxtNoFaktur.Text="";TxtCatatan.Text="";LblTotalPembelian.Text="Total: Rp 0";CmbSupplier.ItemsSource=await GetSuppliersAsync();CmbSupplier.SelectedIndex=-1;ModalLayout.IsVisible=true;}
+    async Task<List<string>> GetSuppliersAsync(){var a=new List<string>();using var c=new MySqlConnection(MauiProgram.ConnectionString);await c.OpenAsync();using var cmd=new MySqlCommand("SELECT NamaSupplier FROM suppliers ORDER BY NamaSupplier",c);using var r=await cmd.ExecuteReaderAsync();while(await r.ReadAsync())a.Add(r.GetString(0));return a;}
+    async void OnTambahItemClicked(object s,EventArgs e){if(string.IsNullOrWhiteSpace(TxtKodeObat.Text)||!int.TryParse(TxtQty.Text,out var qty)||qty<=0||!decimal.TryParse(TxtHargaBeli.Text?.Replace(",","."),NumberStyles.Any,CultureInfo.InvariantCulture,out var harga)||harga<0){await DisplayAlert("Peringatan","Isi kode obat, qty, dan harga beli dengan benar.","OK");return;}try{using var c=new MySqlConnection(MauiProgram.ConnectionString);await c.OpenAsync();using var cmd=new MySqlCommand("SELECT Id,NamaObat FROM obats WHERE KodeObat=@k LIMIT 1",c);cmd.Parameters.AddWithValue("@k",TxtKodeObat.Text.Trim());using var r=await cmd.ExecuteReaderAsync();if(!await r.ReadAsync()){await DisplayAlert("Tidak ditemukan","Kode obat tidak ditemukan.","OK");return;}int id=Convert.ToInt32(r["Id"]);string nama=r["NamaObat"].ToString()??"";var old=_lines.FirstOrDefault(x=>x.ObatId==id);if(old!=null){old.Qty+=qty;old.Harga=harga;}else _lines.Add(new PurchaseLine{ObatId=id,NamaObat=nama,Qty=qty,Harga=harga});LblTotalPembelian.Text=$"Total: Rp {_lines.Sum(x=>x.Subtotal):N0}";TxtKodeObat.Text=TxtQty.Text=TxtHargaBeli.Text="";}catch(Exception ex){await DisplayAlert("Item",ex.Message,"OK");}}
+    async void OnSimpanClicked(object s,EventArgs e){if(string.IsNullOrWhiteSpace(TxtNoFaktur.Text)||CmbSupplier.SelectedItem==null||_lines.Count==0){await DisplayAlert("Peringatan","Faktur, supplier, dan minimal satu item wajib diisi.","OK");return;}try{using var c=new MySqlConnection(MauiProgram.ConnectionString);await c.OpenAsync();using var tr=await c.BeginTransactionAsync();int supplierId;using(var cmd=new MySqlCommand("SELECT Id FROM suppliers WHERE NamaSupplier=@n LIMIT 1",c,tr)){cmd.Parameters.AddWithValue("@n",CmbSupplier.SelectedItem.ToString());supplierId=Convert.ToInt32(await cmd.ExecuteScalarAsync());}decimal total=_lines.Sum(x=>x.Subtotal);long pembelianId;using(var cmd=new MySqlCommand("INSERT INTO pembelians(NoFaktur,TanggalPembelian,TotalHarga,Catatan,SupplierId) VALUES(@f,NOW(),@t,@c,@s); SELECT LAST_INSERT_ID();",c,tr)){cmd.Parameters.AddWithValue("@f",TxtNoFaktur.Text.Trim());cmd.Parameters.AddWithValue("@t",total);cmd.Parameters.AddWithValue("@c",TxtCatatan.Text?.Trim()??"");cmd.Parameters.AddWithValue("@s",supplierId);pembelianId=Convert.ToInt64(await cmd.ExecuteScalarAsync());}foreach(var x in _lines){using var d=new MySqlCommand("INSERT INTO detail_pembelians(PembelianId,ObatId,Jumlah,HargaBeli) VALUES(@p,@o,@q,@h)",c,tr);d.Parameters.AddWithValue("@p",pembelianId);d.Parameters.AddWithValue("@o",x.ObatId);d.Parameters.AddWithValue("@q",x.Qty);d.Parameters.AddWithValue("@h",x.Harga);await d.ExecuteNonQueryAsync();using var u=new MySqlCommand("UPDATE obats SET Stok=Stok+@q,HargaBeli=@h WHERE Id=@o",c,tr);u.Parameters.AddWithValue("@q",x.Qty);u.Parameters.AddWithValue("@h",x.Harga);u.Parameters.AddWithValue("@o",x.ObatId);await u.ExecuteNonQueryAsync();}await tr.CommitAsync();ModalLayout.IsVisible=false;await LoadAsync();await DisplayAlert("Berhasil","Pembelian tersimpan dan stok bertambah.","OK");}catch(Exception ex){await DisplayAlert("Gagal Simpan",ex.Message,"OK");}}
+    void OnBatalClicked(object s,EventArgs e)=>ModalLayout.IsVisible=false;
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<<<<<<< HEAD
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ApotekApp.LaporanPage" BackgroundColor="#F1F3F5">
   <AbsoluteLayout>
 <Grid Padding="20" RowDefinitions="Auto,Auto,*" RowSpacing="12" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
@@ -81,4 +82,29 @@
       </VerticalStackLayout>
     </Border>
   </AbsoluteLayout>
+=======
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ApotekApp.LaporanPage" BackgroundColor="#F8FAFC">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="24" RowSpacing="14">
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto"><VerticalStackLayout Spacing="2">
+            <Label Text="Riwayat Transaksi &amp; Laporan" FontSize="22" FontAttributes="Bold" TextColor="#0F172A"/>
+            <Label Text="Pantau penjualan, pembelian, dan nilai stok dalam satu halaman." FontSize="12" TextColor="#64748B"/>
+        </VerticalStackLayout>
+            <Button Grid.Column="1" Text="🔄   Refresh" Clicked="OnTampilkanClicked" BackgroundColor="#FFFFFF" TextColor="#334155" BorderColor="#CBD5E1" BorderWidth="1" CornerRadius="8" HeightRequest="42" Padding="16,0"/></Grid>
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="16">
+            <Grid ColumnDefinitions="*,*,*,Auto" ColumnSpacing="12">
+                <VerticalStackLayout Spacing="5"><Label Text="Jenis Laporan" FontSize="11" FontAttributes="Bold" TextColor="#475569"/>
+                    <Border BackgroundColor="#F8FAFC" Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0" HeightRequest="46"><Picker x:Name="JenisLaporanPicker" Title="Pilih jenis laporan" TextColor="#0F172A" TitleColor="#64748B" SelectedIndexChanged="OnFilterChanged"/></Border></VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5"><Label Text="Tanggal Mulai" FontSize="11" FontAttributes="Bold" TextColor="#475569"/>
+                    <Border BackgroundColor="#F8FAFC" Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0" HeightRequest="46"><DatePicker x:Name="TglMulaiPicker" Format="dd/MM/yyyy" TextColor="#0F172A"/></Border></VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" Spacing="5"><Label Text="Tanggal Selesai" FontSize="11" FontAttributes="Bold" TextColor="#475569"/>
+                    <Border BackgroundColor="#F8FAFC" Stroke="#CBD5E1" StrokeShape="RoundRectangle 8" Padding="8,0" HeightRequest="46"><DatePicker x:Name="TglSelesaiPicker" Format="dd/MM/yyyy" TextColor="#0F172A"/></Border></VerticalStackLayout>
+                <Button Grid.Column="3" Text="⌕  Tampilkan" Clicked="OnTampilkanClicked" BackgroundColor="#2563EB" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="46" Padding="18,0" VerticalOptions="End"/>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="2" RowDefinitions="Auto,*" RowSpacing="12">
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12"><Border BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" Padding="16"><VerticalStackLayout Spacing="3"><Label Text="TOTAL DATA" FontSize="10" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="TotalTransaksiLabel" Text="0" FontSize="24" FontAttributes="Bold" TextColor="#2563EB"/></VerticalStackLayout></Border><Border Grid.Column="1" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" Padding="16"><VerticalStackLayout Spacing="3"><Label Text="TOTAL NOMINAL / NILAI" FontSize="10" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="TotalNominalLabel" Text="Rp 0" FontSize="24" FontAttributes="Bold" TextColor="#059669"/></VerticalStackLayout></Border><Border Grid.Column="2" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" Padding="16"><VerticalStackLayout Spacing="3"><Label Text="RATA-RATA" FontSize="10" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="RataRataLabel" Text="Rp 0" FontSize="24" FontAttributes="Bold" TextColor="#7C3AED"/></VerticalStackLayout></Border></Grid>
+            <Border Grid.Row="1" BackgroundColor="White" Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="0" VerticalOptions="FillAndExpand"><Grid RowDefinitions="Auto,*"><Grid Padding="14,12" ColumnDefinitions="170,160,*,180" BackgroundColor="#F1F5F9"><Label Text="TANGGAL" FontSize="11" FontAttributes="Bold" TextColor="#475569"/><Label Grid.Column="1" Text="NO. NOTA / FAKTUR" FontSize="11" FontAttributes="Bold" TextColor="#475569"/><Label Grid.Column="2" Text="USER / SUPPLIER" FontSize="11" FontAttributes="Bold" TextColor="#475569"/><Label Grid.Column="3" Text="TOTAL" FontSize="11" FontAttributes="Bold" TextColor="#475569" HorizontalTextAlignment="End"/></Grid><CollectionView Grid.Row="1" x:Name="LaporanCollectionView" SelectionMode="None" VerticalOptions="FillAndExpand"><CollectionView.EmptyView><VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6"><Label Text="Belum ada riwayat" FontSize="17" FontAttributes="Bold" TextColor="#475569" HorizontalTextAlignment="Center"/><Label Text="Pilih periode dan tekan Tampilkan untuk memuat data." FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center"/></VerticalStackLayout></CollectionView.EmptyView><CollectionView.ItemTemplate><DataTemplate><Grid Padding="14,10" ColumnDefinitions="170,160,*,180" HeightRequest="54"><Label Text="{Binding TanggalFormatted}" TextColor="#475569" VerticalOptions="Center"/><Label Grid.Column="1" Text="{Binding NomorNota}" TextColor="#0F172A" FontAttributes="Bold" VerticalOptions="Center"/><Label Grid.Column="2" Text="{Binding NamaUser}" TextColor="#334155" VerticalOptions="Center" LineBreakMode="TailTruncation"/><Label Grid.Column="3" Text="{Binding TotalRpFormatted, StringFormat='Rp {0}'}" TextColor="#059669" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalOptions="Center"/></Grid></DataTemplate></CollectionView.ItemTemplate></CollectionView></Grid></Border>
+        </Grid>
+    </Grid>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 </ContentPage>

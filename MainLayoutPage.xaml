@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -33,4 +34,41 @@
 
     </Grid>
 
+=======
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApotekApp.MainLayoutPage"
+             Title="MainLayoutPage">
+
+    <Grid ColumnDefinitions="240, *">
+
+        <!-- ================= SIDEBAR (KIRI) ================= -->
+        <Grid Grid.Column="0" BackgroundColor="#1E2230" RowDefinitions="Auto, *, Auto" Padding="15">
+
+            <Label Text="APOTEK SYSTEM" 
+                   TextColor="White" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   Margin="10,20,10,20"/>
+
+            <StackLayout Grid.Row="1" Spacing="8">
+                <Button x:Name="BtnDashboard" Text="Dashboard" Clicked="OnMenuClicked" Style="{StaticResource NavButtonStyle}"/>
+                <Button x:Name="BtnObat" Text="Master Obat" Clicked="OnMenuClicked" Style="{StaticResource NavButtonStyle}"/>
+                <Button x:Name="BtnSupplier" Text="Master Supplier" Clicked="OnMenuClicked" Style="{StaticResource NavButtonStyle}"/>
+                <Button x:Name="BtnUser" Text="Master User" Clicked="OnMenuClicked" Style="{StaticResource NavButtonStyle}"/>
+                <Button x:Name="BtnPenjualan" Text="Penjualan" Clicked="OnMenuClicked" Style="{StaticResource NavButtonStyle}"/>
+                <Button x:Name="BtnPembelian" Text="Pembelian" Clicked="OnMenuClicked" Style="{StaticResource NavButtonStyle}"/>
+                <Button x:Name="BtnLaporan" Text="Laporan" Clicked="OnMenuClicked" Style="{StaticResource NavButtonStyle}"/>
+            </StackLayout>
+
+            <Button Grid.Row="2" Text="Logout" BackgroundColor="#E11D48" TextColor="White" CornerRadius="8" Clicked="OnLogoutClicked"/>
+        </Grid>
+
+        <!-- ================= KONTEN UTAMA (KANAN) ================= -->
+        <ContentView x:Name="MainContentArea" Grid.Column="1" BackgroundColor="#F3F4F6"/>
+
+    </Grid>
+
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 </ContentPage>

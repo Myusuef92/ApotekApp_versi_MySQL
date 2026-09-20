@@ -1,4 +1,5 @@
 using MySqlConnector;
+<<<<<<< HEAD
 using ApotekApp.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -297,4 +298,25 @@ public partial class UserPage : ContentPage
         TxtPassword.IsPassword = true;
         BtnTogglePassword.Text = "👁";
     }
+=======
+using System.Collections.ObjectModel;
+
+namespace ApotekApp;
+
+public class UserItem { public int Id{get;set;} public string Username{get;set;}=""; public string NamaLengkap{get;set;}=""; public string Role{get;set;}="Kasir"; }
+
+public partial class UserPage : ContentPage
+{
+    readonly ObservableCollection<UserItem> _items=new(); int _editId;
+    public UserPage(){InitializeComponent();CvUserList.ItemsSource=_items;}
+    protected override async void OnAppearing(){base.OnAppearing();await LoadAsync();}
+    public async Task LoadAsync(){try{_items.Clear();using var c=new MySqlConnection(MauiProgram.ConnectionString);await c.OpenAsync();using var cmd=new MySqlCommand(@"SELECT u.id,u.username,u.nama_lengkap,COALESCE(r.nama_role,'Kasir') role FROM users u LEFT JOIN roles r ON r.id=u.role_id ORDER BY u.nama_lengkap",c);using var r=await cmd.ExecuteReaderAsync();while(await r.ReadAsync())_items.Add(new UserItem{Id=Convert.ToInt32(r["id"]),Username=r["username"]?.ToString()??"",NamaLengkap=r["nama_lengkap"]?.ToString()??"",Role=r["role"]?.ToString()??"Kasir"});}catch(Exception ex){await DisplayAlert("User",ex.Message,"OK");}}
+    void OnSearchTextChanged(object s,TextChangedEventArgs e){var k=e.NewTextValue?.Trim().ToLowerInvariant()??"";CvUserList.ItemsSource=string.IsNullOrEmpty(k)?_items:_items.Where(x=>(x.Username+" "+x.NamaLengkap+" "+x.Role).ToLowerInvariant().Contains(k)).ToList();}
+    void OnTambahUserClicked(object s,EventArgs e){_editId=0;LblModalTitle.Text="Tambah User";TxtUsername.Text=TxtNama.Text=TxtPassword.Text="";CmbRole.SelectedIndex=2;ModalLayout.IsVisible=true;}
+    void OnEditClicked(object s,EventArgs e){if((s as Button)?.CommandParameter is not UserItem x)return;_editId=x.Id;LblModalTitle.Text="Edit User";TxtUsername.Text=x.Username;TxtNama.Text=x.NamaLengkap;TxtPassword.Text="";CmbRole.SelectedIndex=Math.Max(0,CmbRole.Items.IndexOf(x.Role));ModalLayout.IsVisible=true;}
+    async void OnSimpanUserClicked(object s,EventArgs e){if(string.IsNullOrWhiteSpace(TxtUsername.Text)||string.IsNullOrWhiteSpace(TxtNama.Text)){await DisplayAlert("Peringatan","Username dan nama wajib diisi.","OK");return;}try{using var c=new MySqlConnection(MauiProgram.ConnectionString);await c.OpenAsync();int roleId;using(var rc=new MySqlCommand("SELECT id FROM roles WHERE nama_role=@r LIMIT 1",c)){rc.Parameters.AddWithValue("@r",CmbRole.SelectedItem?.ToString()??"Kasir");roleId=Convert.ToInt32(await rc.ExecuteScalarAsync());}string sql;if(_editId==0)sql="INSERT INTO users(username,password,nama_lengkap,role_id) VALUES(@u,@p,@n,@r)";else sql="UPDATE users SET username=@u,nama_lengkap=@n,role_id=@r"+(string.IsNullOrWhiteSpace(TxtPassword.Text)?"":",password=@p")+" WHERE id=@id";using var cmd=new MySqlCommand(sql,c);cmd.Parameters.AddWithValue("@u",TxtUsername.Text.Trim());cmd.Parameters.AddWithValue("@n",TxtNama.Text.Trim());cmd.Parameters.AddWithValue("@r",roleId);if(_editId==0||!string.IsNullOrWhiteSpace(TxtPassword.Text))cmd.Parameters.AddWithValue("@p",TxtPassword.Text);if(_editId>0)cmd.Parameters.AddWithValue("@id",_editId);await cmd.ExecuteNonQueryAsync();ModalLayout.IsVisible=false;await LoadAsync();await DisplayAlert("Berhasil",_editId==0?"User berhasil ditambahkan.":"Data user berhasil diperbarui.","OK");}catch(Exception ex){await DisplayAlert("Gagal Simpan",ex.Message,"OK");}}
+    async void OnHapusClicked(object s,EventArgs e){if((s as Button)?.CommandParameter is not UserItem x)return;if(x.Id==Preferences.Get("CurrentUserId",0)){await DisplayAlert("Peringatan","Akun yang sedang digunakan tidak boleh dihapus.","OK");return;}if(!await DisplayAlert("Hapus",$"Hapus user {x.Username}?","Ya","Batal"))return;try{using var c=new MySqlConnection(MauiProgram.ConnectionString);await c.OpenAsync();using var cmd=new MySqlCommand("DELETE FROM users WHERE id=@id",c);cmd.Parameters.AddWithValue("@id",x.Id);await cmd.ExecuteNonQueryAsync();await LoadAsync();await DisplayAlert("Berhasil",$"User {x.Username} berhasil dihapus.","OK");}catch(Exception ex){await DisplayAlert("Gagal Hapus",ex.Message,"OK");}}
+    void OnBatalModalClicked(object s,EventArgs e)=>ModalLayout.IsVisible=false;
+    async void OnRefreshClicked(object s,EventArgs e)=>await LoadAsync();
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 }

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ApotekApp.MainPage"
+<<<<<<< HEAD
              BackgroundColor="#F1F3F5"
              NavigationPage.HasNavigationBar="False">
     <Grid ColumnDefinitions="250,*">
@@ -62,6 +63,147 @@
                 </Grid>
             </Border>
             <ContentView Grid.Row="1" x:Name="MainContent" BackgroundColor="#F1F3F5"/>
+=======
+             BackgroundColor="#F8FAFC"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SectionHeaderStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="#64748B" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="12,14,0,4" />
+            </Style>
+            <Style x:Key="MenuButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="#CBD5E1" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HorizontalOptions" Value="Fill" />
+                <Setter Property="Padding" Value="14,0" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="CornerRadius" Value="8" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid ColumnDefinitions="250,*">
+        <!-- SIDEBAR -->
+        <Border Grid.Column="0" BackgroundColor="#0F172A" Stroke="#1E293B" StrokeThickness="1" Padding="16,20">
+            <Grid RowDefinitions="Auto,*,Auto,Auto" RowSpacing="10">
+                <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="12" Margin="4,0,0,12">
+                    <Border WidthRequest="42" HeightRequest="42" BackgroundColor="#2563EB" StrokeThickness="0" StrokeShape="RoundRectangle 10">
+                        <Image x:Name="ImgSidebarLogo" Aspect="AspectFit" Margin="5">
+                            <Image.Source>
+                                <FileImageSource File="logo_rpl.png" />
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                        <Label Text="APOTEK SYSTEM" FontSize="15" FontAttributes="Bold" TextColor="White" CharacterSpacing="0.5" />
+                        <Label Text="Sistem Informasi Apotek" FontSize="10" TextColor="#94A3B8" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="MENU UTAMA" Style="{StaticResource SectionHeaderStyle}" />
+                        <Button x:Name="BtnDashboard" 
+                                Text="Dashboard" 
+                                ImageSource="dashboard.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuDashboardClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                        <Button x:Name="BtnObat" 
+                                Text="Data Obat" 
+                                ImageSource="obat.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuObatClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                        <Button x:Name="BtnSupplier" 
+                                Text="Data Supplier" 
+                                ImageSource="supplier.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuSupplierClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                        <Button x:Name="BtnUser" 
+                                Text="Data User" 
+                                ImageSource="user.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuUserClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                        <Label Text="TRANSAKSI" Style="{StaticResource SectionHeaderStyle}" />
+
+                        <Button x:Name="BtnPenjualan" 
+                                Text="Penjualan" 
+                                ImageSource="jual.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuPenjualanClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                        <Button x:Name="BtnPembelian" 
+                                Text="Pembelian" 
+                                ImageSource="beli.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuPembelianClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                        <Label Text="SISTEM" Style="{StaticResource SectionHeaderStyle}" />
+
+                        <Button x:Name="BtnLaporan" 
+                                Text="Laporan" 
+                                ImageSource="laporan.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuLaporanClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                        <Button x:Name="BtnSetting" 
+                                Text="Pengaturan" 
+                                ImageSource="setting.png" 
+                                ContentLayout="Left, 10"
+                                Clicked="OnMenuSettingClicked" 
+                                Style="{StaticResource MenuButtonStyle}" />
+                    </VerticalStackLayout>
+                </ScrollView>
+
+                <Border Grid.Row="2" BackgroundColor="#1E293B" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="12,10" Margin="0,6,0,0">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Border WidthRequest="32" HeightRequest="32" BackgroundColor="#334155" StrokeThickness="0" StrokeShape="RoundRectangle 18">
+                            <Label Text="👤" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label x:Name="LblSidebarUser" Text="Pengguna" FontSize="12" FontAttributes="Bold" TextColor="White" LineBreakMode="TailTruncation" />
+                            <Label x:Name="LblSidebarRole" Text="● Kasir" FontSize="10" TextColor="#10B981" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Button Grid.Row="3" Text="🚪   Keluar / Logout" Clicked="OnLogoutClicked" BackgroundColor="#EF4444" TextColor="White" FontAttributes="Bold" FontSize="12" CornerRadius="8" HeightRequest="38" Margin="0,4,0,0" />
+            </Grid>
+        </Border>
+
+        <!-- AREA KONTEN -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*" BackgroundColor="#F8FAFC">
+            <Border Grid.Row="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="24,28,24,14">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                        <Label x:Name="LblPageTitle" Text="DASHBOARD" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="Sistem Informasi Operasional &amp; Management Apotek" FontSize="11" TextColor="#64748B" />
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1" BackgroundColor="#F1F5F9" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12,7" VerticalOptions="Center">
+                        <HorizontalStackLayout Spacing="7">
+                            <Ellipse WidthRequest="7" HeightRequest="7" Fill="#10B981" VerticalOptions="Center" />
+                            <Label x:Name="LblHeaderUser" Text="Pengguna • Kasir" FontSize="12" TextColor="#334155" FontAttributes="Bold" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </Grid>
+            </Border>
+            <ContentView Grid.Row="1" x:Name="MainContent" BackgroundColor="#F8FAFC" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
         </Grid>
     </Grid>
 </ContentPage>

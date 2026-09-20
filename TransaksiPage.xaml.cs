@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 using ApotekApp.Services;
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 using MySqlConnector;
@@ -16,7 +19,11 @@ namespace ApotekApp;
 
 public partial class TransaksiPage : ContentPage
 {
+<<<<<<< HEAD
     private readonly string _connString = MauiProgram.ConnectionString;
+=======
+    private readonly string _connString = "Server=localhost;Database=db_apotek;Uid=root;Pwd=;";
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
     public ObservableCollection<CartItemModel> ListKeranjang { get; set; } = new();
 
     private decimal _persenPpn = 0;
@@ -36,6 +43,10 @@ public partial class TransaksiPage : ContentPage
     private string _lastTelp = "";
     private string _lastSia = "";
     private string _lastFooter = "-- Terima Kasih --";
+<<<<<<< HEAD
+=======
+    private string _lastLogoPath = "";
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
     private List<CartItemModel> _lastCartSnapshot = new();
 
     public TransaksiPage()
@@ -289,25 +300,40 @@ public partial class TransaksiPage : ContentPage
         {
             using var conn = new MySqlConnection(_connString);
             await conn.OpenAsync();
+<<<<<<< HEAD
             using var trans = conn.BeginTransaction();
+=======
+            using var trans = await conn.BeginTransactionAsync();
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
             try
             {
                 // A. Insert ke tabel 'penjualan'
+<<<<<<< HEAD
                 string qPenjualan = @"INSERT INTO penjualan (no_nota, tanggal, total, diskon, grand_total, bayar, kembali, user_id) 
                                      VALUES (@Nota, @Tanggal, @Total, @Diskon, @GrandTotal, @Bayar, @Kembali, @UserId)";
+=======
+                string qPenjualan = @"INSERT INTO penjualan (no_nota, tanggal, total, diskon, grand_total, bayar, kembali) 
+                                     VALUES (@Nota, NOW(), @Total, @Diskon, @GrandTotal, @Bayar, @Kembali)";
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
                 using (var cmd = new MySqlCommand(qPenjualan, conn, trans))
                 {
                     cmd.Parameters.AddWithValue("@Nota", noNota);
+<<<<<<< HEAD
                     cmd.Parameters.AddWithValue("@Tanggal", DateTime.Now);
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     cmd.Parameters.AddWithValue("@Total", total);
                     cmd.Parameters.AddWithValue("@Diskon", diskon);
                     cmd.Parameters.AddWithValue("@GrandTotal", grandTotal);
                     cmd.Parameters.AddWithValue("@Bayar", bayar);
                     cmd.Parameters.AddWithValue("@Kembali", kembalian);
+<<<<<<< HEAD
                     var currentUserId = Preferences.Get("CurrentUserId", 0);
                     cmd.Parameters.AddWithValue("@UserId", currentUserId > 0 ? currentUserId : DBNull.Value);
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     await cmd.ExecuteNonQueryAsync();
                 }
 
@@ -315,27 +341,44 @@ public partial class TransaksiPage : ContentPage
                 string detailStrukText = "";
                 foreach (var item in ListKeranjang)
                 {
+<<<<<<< HEAD
                     string qDetail = @"INSERT INTO detail_penjualan (no_nota, id_obat, nama_obat, harga, harga_beli, qty, subtotal) 
                                       VALUES (@Nota, @IdObat, @NamaObat, @Harga, @HargaBeli, @Qty, @Subtotal)";
+=======
+                    string qDetail = @"INSERT INTO detail_penjualan (no_nota, id_obat, harga, qty, subtotal) 
+                                      VALUES (@Nota, @IdObat, @Harga, @Qty, @Subtotal)";
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     using (var cmdD = new MySqlCommand(qDetail, conn, trans))
                     {
                         cmdD.Parameters.AddWithValue("@Nota", noNota);
                         cmdD.Parameters.AddWithValue("@IdObat", item.IdObat);
+<<<<<<< HEAD
                         cmdD.Parameters.AddWithValue("@NamaObat", item.NamaObat);
                         cmdD.Parameters.AddWithValue("@Harga", item.Harga);
                         cmdD.Parameters.AddWithValue("@HargaBeli", GetHargaBeli(conn, trans, item.IdObat));
+=======
+                        cmdD.Parameters.AddWithValue("@Harga", item.Harga);
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                         cmdD.Parameters.AddWithValue("@Qty", item.Qty);
                         cmdD.Parameters.AddWithValue("@Subtotal", item.Subtotal);
                         await cmdD.ExecuteNonQueryAsync();
                     }
 
+<<<<<<< HEAD
                     string qStok = "UPDATE obats SET Stok = Stok - @Qty WHERE id = @IdObat AND Stok >= @Qty";
+=======
+                    string qStok = "UPDATE obats SET Stok = Stok - @Qty WHERE id = @IdObat";
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     using (var cmdS = new MySqlCommand(qStok, conn, trans))
                     {
                         cmdS.Parameters.AddWithValue("@Qty", item.Qty);
                         cmdS.Parameters.AddWithValue("@IdObat", item.IdObat);
+<<<<<<< HEAD
                         var stockRows = await cmdS.ExecuteNonQueryAsync();
                         if (stockRows != 1) throw new InvalidOperationException($"Stok obat '{item.NamaObat}' berubah atau tidak mencukupi. Transaksi dibatalkan.");
+=======
+                        await cmdS.ExecuteNonQueryAsync();
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     }
 
                     detailStrukText += $"{item.NamaObat}\n  {item.Qty} x Rp {item.Harga:N0} = Rp {item.Subtotal:N0}\n";
@@ -347,6 +390,10 @@ public partial class TransaksiPage : ContentPage
                 string telp = Preferences.Get("TeleponApotek", "0812-3456-7890");
                 string sia = "SIA: 440/001/SIA/2026";
                 string footer = "-- Terima Kasih Semoga Lekas Sembuh --";
+<<<<<<< HEAD
+=======
+                string logoPath = Preferences.Get("AppLogoPath", string.Empty);
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
                 using (var cmdSet = new MySqlCommand("SELECT * FROM pengaturan WHERE id = 1 LIMIT 1", conn, trans))
                 {
@@ -363,6 +410,11 @@ public partial class TransaksiPage : ContentPage
                             sia = rSet["sia_sipa"].ToString();
                         if (rSet["catatan_struk"] != DBNull.Value && !string.IsNullOrWhiteSpace(rSet["catatan_struk"].ToString()))
                             footer = rSet["catatan_struk"].ToString();
+<<<<<<< HEAD
+=======
+                        if (rSet["logo_path"] != DBNull.Value && !string.IsNullOrWhiteSpace(rSet["logo_path"].ToString()))
+                            logoPath = rSet["logo_path"].ToString();
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     }
                 }
 
@@ -382,6 +434,10 @@ public partial class TransaksiPage : ContentPage
                 _lastTelp = telp;
                 _lastSia = sia;
                 _lastFooter = footer;
+<<<<<<< HEAD
+=======
+                _lastLogoPath = logoPath;
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 _lastCartSnapshot = ListKeranjang.Select(x => new CartItemModel
                 {
                     NamaObat = x.NamaObat,
@@ -396,6 +452,23 @@ public partial class TransaksiPage : ContentPage
                     FrameStruk.WidthRequest = _ukuranKertas == "80mm" ? 420 : 340;
                 }
 
+<<<<<<< HEAD
+=======
+                // F. Tampilkan Data ke Popup Modal
+                if (ImgStrukLogo != null)
+                {
+                    if (!string.IsNullOrEmpty(logoPath) && File.Exists(logoPath))
+                    {
+                        ImgStrukLogo.Source = ImageSource.FromFile(logoPath);
+                        ImgStrukLogo.IsVisible = true;
+                    }
+                    else
+                    {
+                        ImgStrukLogo.IsVisible = false;
+                    }
+                }
+
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 if (LblStrukNamaApotek != null) LblStrukNamaApotek.Text = namaApotek;
                 if (LblStrukAlamat != null)
                 {
@@ -417,8 +490,11 @@ public partial class TransaksiPage : ContentPage
                 if (LblStrukKembali != null) LblStrukKembali.Text = $"Rp {kembalian:N0}";
                 if (LblStrukFooter != null) LblStrukFooter.Text = footer;
 
+<<<<<<< HEAD
                 // Setelah pembayaran berhasil, pengguna menentukan sendiri
                 // apakah struk ingin dicetak atau tidak. Tidak ada print otomatis.
+=======
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 if (ModalStruk != null) ModalStruk.IsVisible = true;
             }
             catch
@@ -440,6 +516,7 @@ public partial class TransaksiPage : ContentPage
     {
         try
         {
+<<<<<<< HEAD
             var items = _lastCartSnapshot.Select(x => (x.NamaObat, x.Qty, x.Harga, x.Subtotal));
             var body = BrowserPrintService.ReceiptHtml(
                 _lastNamaApotek, _lastAlamat, _lastTelp, _lastSia,
@@ -468,6 +545,104 @@ public partial class TransaksiPage : ContentPage
 
             if (ModalStruk != null) ModalStruk.IsVisible = false;
             OnBatalClicked(null, EventArgs.Empty);
+=======
+            string logoHtml = "";
+            if (!string.IsNullOrEmpty(_lastLogoPath) && File.Exists(_lastLogoPath))
+            {
+                byte[] imageBytes = await File.ReadAllBytesAsync(_lastLogoPath);
+                string base64Image = Convert.ToBase64String(imageBytes);
+                logoHtml = $"<img src='data:image/png;base64,{base64Image}' style='max-height:60px; margin-bottom:5px;' /><br/>";
+            }
+
+            var itemRowsHtml = new StringBuilder();
+            foreach (var item in _lastCartSnapshot)
+            {
+                itemRowsHtml.AppendLine($@"
+                    <div style='margin-bottom: 5px;'>
+                        <div style='font-weight: bold;'>{item.NamaObat}</div>
+                        <div style='display:flex; justify-content:space-between;'>
+                            <span>{item.Qty} x Rp {item.Harga:N0}</span>
+                            <span>Rp {item.Subtotal:N0}</span>
+                        </div>
+                    </div>");
+            }
+
+            string paperWidthCss = _ukuranKertas == "80mm" ? "72mm" : "52mm";
+
+            string htmlContent = $@"
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset='utf-8'/>
+                <title>Struk Pembayaran</title>
+                <style>
+                    @page {{ size: {_ukuranKertas} auto; margin: 0; }}
+                    body {{
+                        font-family: 'Courier New', Courier, monospace;
+                        width: {paperWidthCss};
+                        margin: 0 auto;
+                        padding: 8px;
+                        font-size: 11px;
+                        color: #000;
+                    }}
+                    .text-center {{ text-align: center; }}
+                    .line {{ border-bottom: 1px dashed #000; margin: 6px 0; }}
+                    .flex {{ display: flex; justify-content: space-between; }}
+                    .bold {{ font-weight: bold; }}
+                </style>
+                <script>
+                    window.onload = function() {{
+                        window.print();
+                    }};
+                </script>
+            </head>
+            <body>
+                <div class='text-center'>
+                    {logoHtml}
+                    <div style='font-size:14px; font-weight:bold;'>{_lastNamaApotek}</div>
+                    <div>{_lastAlamat}</div>
+                    <div>Telp: {_lastTelp}</div>
+                    {(!string.IsNullOrWhiteSpace(_lastSia) ? $"<div>{_lastSia}</div>" : "")}
+                </div>
+
+                <div class='line'></div>
+
+                <div>Nota: {_lastNoNota}</div>
+                <div>Tgl : {_lastTanggal:dd/MM/yyyy HH:mm}</div>
+
+                <div class='line'></div>
+
+                {itemRowsHtml}
+
+                <div class='line'></div>
+
+                <div class='flex'><span>Subtotal</span><span>Rp {_lastTotal:N0}</span></div>
+                <div class='flex'><span>Diskon</span><span>Rp {_lastDiskon:N0}</span></div>
+                <div class='flex'><span>PPN ({_persenPpn:G29}%)</span><span>Rp {_lastPpn:N0}</span></div>
+                <div class='flex bold' style='font-size:12px;'><span>Grand Total</span><span>Rp {_lastGrandTotal:N0}</span></div>
+                <div class='flex'><span>Bayar</span><span>Rp {_lastBayar:N0}</span></div>
+                <div class='flex bold'><span>Kembali</span><span>Rp {_lastKembali:N0}</span></div>
+
+                <div class='line'></div>
+
+                <div class='text-center' style='margin-top:10px;'>
+                    {_lastFooter}
+                </div>
+            </body>
+            </html>";
+
+            string filePath = Path.Combine(FileSystem.CacheDirectory, "struk_pembayaran.html");
+            await File.WriteAllTextAsync(filePath, htmlContent);
+
+            // BUKA FILE KE SISTEM WINDOWS UNTUK DI-PRINT
+            await Launcher.Default.OpenAsync(new OpenFileRequest
+            {
+                File = new ReadOnlyFile(filePath)
+            });
+
+            if (ModalStruk != null) ModalStruk.IsVisible = false;
+            OnBatalClicked(null, null);
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
         }
         catch (Exception ex)
         {
@@ -500,6 +675,7 @@ public partial class TransaksiPage : ContentPage
         UpdateTampilanKeranjang();
     }
 
+<<<<<<< HEAD
     private static decimal GetHargaBeli(MySqlConnection conn, MySqlTransaction trans, int obatId)
     {
         using var cmd = new MySqlCommand("SELECT COALESCE(HargaBeli,0) FROM obats WHERE Id=@id LIMIT 1", conn, trans);
@@ -512,6 +688,11 @@ public partial class TransaksiPage : ContentPage
 
 
 
+=======
+
+}
+
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 // MODEL DATA ITEM KERANJANG
 public class CartItemModel : INotifyPropertyChanged
 {

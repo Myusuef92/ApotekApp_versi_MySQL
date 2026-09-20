@@ -4,7 +4,11 @@ namespace ApotekApp;
 
 public partial class MainLayoutPage : ContentPage
 {
+<<<<<<< HEAD
     private readonly IServiceProvider? _serviceProvider;
+=======
+    private readonly IServiceProvider _serviceProvider;
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
     private readonly Color _colorActive = Color.FromArgb("#3B82F6");      // Warna tombol aktif (Biru)
     private readonly Color _colorInactive = Color.FromArgb("Transparent");  // Transparan
@@ -93,8 +97,12 @@ public partial class MainLayoutPage : ContentPage
         bool confirm = await DisplayAlert("Konfirmasi", "Apakah Anda yakin ingin keluar?", "Ya", "Tidak");
         if (confirm)
         {
+<<<<<<< HEAD
             if (Application.Current is not null)
                 Application.Current.MainPage = new LoginPage();
+=======
+            Application.Current.MainPage = new LoginPage();
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
         }
     }
 }

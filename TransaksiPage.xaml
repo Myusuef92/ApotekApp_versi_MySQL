@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ApotekApp.TransaksiPage"
              Title="Penjualan"
+<<<<<<< HEAD
              BackgroundColor="#F1F3F5">
+=======
+             BackgroundColor="#F3F4F6">
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
     <Grid RowDefinitions="*" ColumnDefinitions="*, 320" Margin="15" ColumnSpacing="15">
 
@@ -15,14 +19,26 @@
                 <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
                     <VerticalStackLayout Grid.Column="0" Spacing="5">
                         <Label Text="Scan Barcode / Kode Obat / Nama Obat (Tekan Enter)" FontSize="12" FontAttributes="Bold" TextColor="#374151"/>
+<<<<<<< HEAD
                         <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="48">
                             <Entry x:Name="TxtBarcode" Placeholder="Scan barcode, masukkan kode, atau nama obat..." Completed="OnScanBarcodeCompleted" BackgroundColor="Transparent" TextColor="#0F172A" PlaceholderColor="#94A3B8"/>
                         </Border>
+=======
+                        <Entry x:Name="TxtBarcode" 
+                               Placeholder="Scan barcode, masukkan kode, atau nama obat..." 
+                               Completed="OnScanBarcodeCompleted" 
+                               BackgroundColor="#F9FAFB" 
+                               TextColor="Black"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     </VerticalStackLayout>
                     <Button Grid.Column="1" 
                             Text="Cari" 
                             VerticalOptions="End" 
+<<<<<<< HEAD
                             BackgroundColor="#0F766E" 
+=======
+                            BackgroundColor="#2563EB" 
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                             TextColor="White" 
                             FontAttributes="Bold"
                             Clicked="OnCariObatClicked"/>
@@ -52,9 +68,18 @@
                                         <Label Grid.Column="0" Text="{Binding No}" VerticalOptions="Center" TextColor="Black"/>
                                         <Label Grid.Column="1" Text="{Binding NamaObat}" FontAttributes="Bold" VerticalOptions="Center" TextColor="Black"/>
 
+<<<<<<< HEAD
                                         <Border Grid.Column="2" BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 7" Padding="4,0" HeightRequest="38" VerticalOptions="Center">
                                             <Entry Text="{Binding Qty}" Keyboard="Numeric" HorizontalTextAlignment="Center" TextChanged="OnQtyItemChanged" TextColor="#0F172A" BackgroundColor="Transparent" PlaceholderColor="#94A3B8"/>
                                         </Border>
+=======
+                                        <Entry Grid.Column="2" 
+                                               Text="{Binding Qty}" 
+                                               Keyboard="Numeric" 
+                                               HorizontalTextAlignment="Center" 
+                                               TextChanged="OnQtyItemChanged" 
+                                               TextColor="Black"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
 
                                         <Label Grid.Column="3" Text="{Binding Harga, StringFormat='Rp {0:N0}'}" HorizontalOptions="End" VerticalOptions="Center" TextColor="Black"/>
                                         <Label Grid.Column="4" Text="{Binding Subtotal, StringFormat='Rp {0:N0}'}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" TextColor="Black"/>
@@ -92,9 +117,13 @@
                 <!-- Diskon Input -->
                 <VerticalStackLayout Spacing="2">
                     <Label Text="DISKON (Rp)" FontSize="12" TextColor="#4B5563"/>
+<<<<<<< HEAD
                     <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="46">
                         <Entry x:Name="TxtDiskon" Text="0" Keyboard="Numeric" HorizontalTextAlignment="End" TextChanged="OnDiskonChanged" TextColor="#0F172A" BackgroundColor="Transparent"/>
                     </Border>
+=======
+                    <Entry x:Name="TxtDiskon" Text="0" Keyboard="Numeric" HorizontalTextAlignment="End" TextChanged="OnDiskonChanged" TextColor="Black"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 </VerticalStackLayout>
 
                 <!-- PPN Display ( x:Name="LblLabelPpn" dan x:Name="LblPpn" ) -->
@@ -107,16 +136,24 @@
                 <Frame BackgroundColor="#EFF6FF" BorderColor="#BFDBFE" Padding="12" CornerRadius="8">
                     <VerticalStackLayout Spacing="2">
                         <Label Text="GRAND TOTAL" FontSize="11" FontAttributes="Bold" TextColor="#1E40AF"/>
+<<<<<<< HEAD
                         <Label x:Name="LblGrandTotal" Text="Rp 0" FontSize="22" FontAttributes="Bold" TextColor="#1557D6"/>
+=======
+                        <Label x:Name="LblGrandTotal" Text="Rp 0" FontSize="22" FontAttributes="Bold" TextColor="#1D4ED8"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Input Nominal Bayar -->
                 <VerticalStackLayout Spacing="2">
                     <Label Text="NOMINAL BAYAR (Rp)" FontSize="12" TextColor="#4B5563"/>
+<<<<<<< HEAD
                     <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="46">
                         <Entry x:Name="TxtNominalBayar" Text="0" Keyboard="Numeric" HorizontalTextAlignment="End" TextChanged="OnNominalBayarChanged" TextColor="#0F172A" BackgroundColor="Transparent"/>
                     </Border>
+=======
+                    <Entry x:Name="TxtNominalBayar" Text="0" Keyboard="Numeric" HorizontalTextAlignment="End" TextChanged="OnNominalBayarChanged" TextColor="Black"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 </VerticalStackLayout>
 
                 <!-- Kembalian -->
@@ -131,8 +168,13 @@
                     <Button Grid.Column="1" Text="BATAL" BackgroundColor="#4B5563" TextColor="White" FontAttributes="Bold" Clicked="OnBatalClicked"/>
                 </Grid>
 
+<<<<<<< HEAD
                 <Button Text="BAYAR" 
                         BackgroundColor="#0F766E" 
+=======
+                <Button Text="BAYAR &amp; CETAK STRUK" 
+                        BackgroundColor="#15803D" 
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                         TextColor="White" 
                         FontAttributes="Bold" 
                         HeightRequest="45" 
@@ -146,7 +188,12 @@
             <Frame x:Name="FrameStruk" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="320" CornerRadius="12" Padding="15" BackgroundColor="White">
                 <ScrollView HeightRequest="480">
                     <StackLayout Spacing="6">
+<<<<<<< HEAD
                         <Button Text="✕" Clicked="OnSelesaiTanpaCetakClicked" HorizontalOptions="End" BackgroundColor="#F1F3F5" TextColor="#475569" WidthRequest="38" HeightRequest="38" Padding="0"/>
+=======
+
+                        <Image x:Name="ImgStrukLogo" HeightRequest="50" IsVisible="False" HorizontalOptions="Center" Margin="0,0,0,5"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                         <Label x:Name="LblStrukNamaApotek" Text="APOTEK SEHAT" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" TextColor="Black"/>
                         <Label x:Name="LblStrukAlamat" Text="Jl. Kesehatan No. 1, Jakarta" FontSize="11" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Gray"/>
                         <BoxView HeightRequest="1" Color="Black" Margin="0,4"/>
@@ -184,7 +231,11 @@
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,10,0,0">
                             <Button Grid.Column="0" 
                                     Text="Cetak Struk" 
+<<<<<<< HEAD
                                     BackgroundColor="#0F766E" 
+=======
+                                    BackgroundColor="#2563EB" 
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                                     TextColor="White" 
                                     FontAttributes="Bold"
                                     CornerRadius="6"

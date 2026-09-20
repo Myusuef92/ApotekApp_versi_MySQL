@@ -2,19 +2,32 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ApotekApp.LoginPage"
+<<<<<<< HEAD
              BackgroundColor="#F1F3F5"
+=======
+             BackgroundColor="#F1F5F9"
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
              NavigationPage.HasNavigationBar="False">
 
     <Grid ColumnDefinitions="1.1*,0.9*" VerticalOptions="FillAndExpand">
         <!-- Branding -->
         <Grid Grid.Column="0" BackgroundColor="#0F172A" Padding="70">
             <VerticalStackLayout VerticalOptions="Center" Spacing="18" MaximumWidthRequest="520">
+<<<<<<< HEAD
                 <Border WidthRequest="82" HeightRequest="82" BackgroundColor="#0F766E" StrokeThickness="0" Padding="0" HorizontalOptions="Start">
                     <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
                     <Label Text="✚" FontSize="42" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
                 </Border>
                 <Label Text="APOTEK" FontSize="38" FontAttributes="Bold" TextColor="White" />
                 <Label Text="Sistem Informasi Operasional Apotek" FontSize="18" TextColor="#B8C3CF" />
+=======
+                <Border WidthRequest="82" HeightRequest="82" BackgroundColor="#2563EB" StrokeThickness="0" Padding="0" HorizontalOptions="Start">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                    <Label Text="✚" FontSize="42" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                </Border>
+                <Label Text="APOTEK POS" FontSize="38" FontAttributes="Bold" TextColor="White" />
+                <Label Text="Sistem Informasi Operasional Apotek" FontSize="18" TextColor="#CBD5E1" />
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 <BoxView HeightRequest="1" BackgroundColor="#334155" Margin="0,12,0,4" />
                 <Label Text="Kelola obat, supplier, pembelian, penjualan, pengguna, dan laporan dalam satu aplikasi." FontSize="14" TextColor="#94A3B8" LineBreakMode="WordWrap" />
             </VerticalStackLayout>
@@ -22,7 +35,11 @@
 
         <!-- Login Card -->
         <Grid Grid.Column="1" Padding="42" VerticalOptions="Center">
+<<<<<<< HEAD
             <Border BackgroundColor="White" Stroke="#C7D0DA" StrokeThickness="1" Padding="34" MaximumWidthRequest="460" HorizontalOptions="Center">
+=======
+            <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" Padding="34" MaximumWidthRequest="460" HorizontalOptions="Center">
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
                 <VerticalStackLayout Spacing="18">
                     <VerticalStackLayout Spacing="5">
@@ -32,7 +49,11 @@
 
                     <VerticalStackLayout Spacing="7">
                         <Label Text="Username" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+<<<<<<< HEAD
                         <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" HeightRequest="48" Padding="12,0">
+=======
+                        <Border BackgroundColor="#F8FAFC" Stroke="#CBD5E1" StrokeThickness="1" HeightRequest="48" Padding="12,0">
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                             <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
                             <Entry x:Name="TxtUsername" Placeholder="Masukkan username" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" VerticalOptions="Center" />
                         </Border>
@@ -41,7 +62,11 @@
                     <VerticalStackLayout Spacing="7">
                         <Label Text="Password" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
                         <Grid ColumnDefinitions="*,48" HeightRequest="48">
+<<<<<<< HEAD
                             <Border Grid.ColumnSpan="2" BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" Padding="12,0">
+=======
+                            <Border Grid.ColumnSpan="2" BackgroundColor="#F8FAFC" Stroke="#CBD5E1" StrokeThickness="1" Padding="12,0">
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                                 <Border.StrokeShape><RoundRectangle CornerRadius="9" /></Border.StrokeShape>
                                 <Entry x:Name="TxtPassword" Placeholder="Masukkan password" PlaceholderColor="#94A3B8" TextColor="#0F172A" IsPassword="True" BackgroundColor="Transparent" VerticalOptions="Center" Margin="0,0,42,0" />
                             </Border>
@@ -49,8 +74,13 @@
                         </Grid>
                     </VerticalStackLayout>
 
+<<<<<<< HEAD
                     <Button Text="MASUK KE SISTEM" Clicked="OnLoginClicked" BackgroundColor="#0F766E" TextColor="White" FontAttributes="Bold" FontSize="14" CornerRadius="9" HeightRequest="50" Margin="0,6,0,0" />
                     <Label Text="Database MySQL/MariaDB siap digunakan setelah server database aktif." FontSize="11" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+=======
+                    <Button Text="MASUK KE SISTEM" Clicked="OnLoginClicked" BackgroundColor="#2563EB" TextColor="White" FontAttributes="Bold" FontSize="14" CornerRadius="9" HeightRequest="50" Margin="0,6,0,0" />
+                    <Label Text="Pastikan MySQL/MariaDB aktif sebelum login." FontSize="11" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
                 </VerticalStackLayout>
             </Border>
         </Grid>

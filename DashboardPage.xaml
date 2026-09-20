@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ApotekApp.DashboardPage"
+<<<<<<< HEAD
              BackgroundColor="#F1F3F5">
     <Grid Padding="20" RowDefinitions="Auto,*,Auto" RowSpacing="12">
         <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
@@ -94,6 +95,43 @@
                 <Label x:Name="LblLoginInfo" Text="" FontSize="10" TextColor="#94A3B8" />
             </VerticalStackLayout>
             <Label Grid.Column="1" Text="copyright@MY" FontSize="10" TextColor="#64748B" VerticalOptions="End" HorizontalTextAlignment="End" />
+=======
+             BackgroundColor="#F8FAFC">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="24" RowSpacing="16">
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*" ColumnSpacing="14">
+            <Border Grid.Column="0" Padding="18" BackgroundColor="#FFFFFF" Stroke="#DBEAFE" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="4"><Label Text="TOTAL OBAT" FontSize="11" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="LblTotalObat" Text="0" FontSize="28" FontAttributes="Bold" TextColor="#2563EB"/><Label Text="Jenis obat terdaftar" FontSize="10" TextColor="#94A3B8"/></VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="1" Padding="18" BackgroundColor="#FFFFFF" Stroke="#D1FAE5" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="4"><Label Text="TOTAL STOK" FontSize="11" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="LblTotalStok" Text="0" FontSize="28" FontAttributes="Bold" TextColor="#059669"/><Label Text="Jumlah unit tersedia" FontSize="10" TextColor="#94A3B8"/></VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="2" Padding="18" BackgroundColor="#FFFFFF" Stroke="#FDE68A" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="4"><Label Text="STOK MENIPIS" FontSize="11" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="LblStokMenipis" Text="0" FontSize="28" FontAttributes="Bold" TextColor="#D97706"/><Label Text="Perlu segera ditambah" FontSize="10" TextColor="#94A3B8"/></VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="3" Padding="18" BackgroundColor="#FFFFFF" Stroke="#FED7AA" StrokeThickness="1" StrokeShape="RoundRectangle 14">
+                <VerticalStackLayout Spacing="4"><Label Text="AKAN EXPIRED" FontSize="11" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="LblAkanExpired" Text="0" FontSize="28" FontAttributes="Bold" TextColor="#EA580C"/><Label Text="Dalam batas pengaturan" FontSize="10" TextColor="#94A3B8"/></VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="0">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Padding="18,15" ColumnDefinitions="*,Auto" BackgroundColor="#F8FAFC">
+                    <VerticalStackLayout Spacing="2"><Label Text="Peringatan Stok &amp; Kedaluwarsa" FontSize="16" FontAttributes="Bold" TextColor="#0F172A"/><Label Text="Daftar obat yang membutuhkan perhatian" FontSize="11" TextColor="#64748B"/></VerticalStackLayout>
+                    <Border Grid.Column="1" BackgroundColor="#EFF6FF" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="10,6"><Label Text="Pantauan Dashboard" FontSize="10" FontAttributes="Bold" TextColor="#2563EB"/></Border>
+                </Grid>
+                <Grid Grid.Row="1" RowDefinitions="Auto,*">
+                    <Grid Padding="14,10" ColumnDefinitions="*,120,150" BackgroundColor="#F1F5F9"><Label Text="NAMA OBAT" FontSize="11" FontAttributes="Bold" TextColor="#475569"/><Label Grid.Column="1" Text="STOK" FontSize="11" FontAttributes="Bold" TextColor="#475569"/><Label Grid.Column="2" Text="KEDALUWARSA" FontSize="11" FontAttributes="Bold" TextColor="#475569" HorizontalTextAlignment="End"/></Grid>
+                    <CollectionView Grid.Row="1" x:Name="CvAlert" SelectionMode="None" VerticalOptions="FillAndExpand">
+                        <CollectionView.EmptyView><VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="6"><Label Text="✓ Semua aman" FontSize="17" FontAttributes="Bold" TextColor="#059669" HorizontalTextAlignment="Center"/><Label Text="Tidak ada stok menipis atau obat yang mendekati kedaluwarsa." FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center"/></VerticalStackLayout></CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate><DataTemplate><Grid Padding="14,11" ColumnDefinitions="*,120,150" HeightRequest="50"><Label Text="{Binding NamaObat}" TextColor="#0F172A" FontAttributes="Bold" VerticalOptions="Center"/><Label Grid.Column="1" Text="{Binding Stok, StringFormat='Stok: {0}'}" TextColor="#D97706" VerticalOptions="Center"/><Label Grid.Column="2" Text="{Binding TglExpired}" TextColor="#EA580C" VerticalOptions="Center" HorizontalTextAlignment="End"/></Grid></DataTemplate></CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,0,0,0">
+            <Label x:Name="LblWelcome" Text="Selamat datang" FontSize="12" TextColor="#64748B" VerticalOptions="Center"/>
+            <Label Grid.Column="1" Text="© MY. All Rights Reserved." FontSize="11" TextColor="#94A3B8" HorizontalOptions="End"/>
+>>>>>>> 7afaaf3961c1cd72c085b84ad7fb4cbabc40b75a
         </Grid>
     </Grid>
 </ContentPage>
