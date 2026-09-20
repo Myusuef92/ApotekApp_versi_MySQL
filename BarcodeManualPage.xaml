@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApotekApp.BarcodeManualPage"
+             BackgroundColor="#F1F3F5">
+    <Grid RowDefinitions="Auto,*" Padding="20" RowSpacing="12">
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Kelola barcode obat" FontSize="15" FontAttributes="Bold" TextColor="#0F172A"/>
+                <Label Text="Pilih obat yang belum memiliki barcode, buat barcode manual, lalu simpan ke Master Obat." FontSize="11" TextColor="#64748B"/>
+            </VerticalStackLayout>
+            <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                <Border BackgroundColor="#E7F7F3" Stroke="#B7DED6" StrokeThickness="1" StrokeShape="RoundRectangle 9" Padding="12,8">
+                    <Label x:Name="LblJumlahObat" Text="0 obat" TextColor="#0F766E" FontSize="10" FontAttributes="Bold"/>
+                </Border>
+                <Button Text="↻ Refresh" Clicked="OnRefreshClicked" BackgroundColor="White" TextColor="#334155" BorderColor="#B8C3CF" BorderWidth="1" HeightRequest="38" Padding="12,0"/>
+            </HorizontalStackLayout>
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="1.15*,1*,1.05*" ColumnSpacing="12">
+            <Border Grid.Column="0" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 14" Padding="16">
+                <Grid RowDefinitions="Auto,Auto,*" RowSpacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="DAFTAR OBAT" FontSize="11" FontAttributes="Bold" TextColor="#53657A"/>
+                            <Label Text="Pilih obat untuk dibuatkan barcode" FontSize="14" FontAttributes="Bold" TextColor="#0F172A"/>
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" Text="+ Obat Baru" Clicked="OnTambahObatBaruClicked" BackgroundColor="#7C3AED" TextColor="White" HeightRequest="38" Padding="12,0"/>
+                    </Grid>
+                    <Border Grid.Row="1" BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="44">
+                        <Entry x:Name="TxtCari" Placeholder="Cari kode, nama, atau barcode..." TextColor="#0F172A" PlaceholderColor="#94A3B8" TextChanged="OnCariChanged"/>
+                    </Border>
+                    <CollectionView Grid.Row="2" x:Name="CvObat" SelectionMode="Single" SelectionChanged="OnObatSelected">
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="7">
+                                <Label Text="Belum ada obat yang dapat dipilih" FontAttributes="Bold" TextColor="#475569" HorizontalTextAlignment="Center"/>
+                                <Label Text="Tambahkan obat baru dengan tombol + Obat Baru." FontSize="11" TextColor="#94A3B8" HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,7" Padding="11" BackgroundColor="#FBFDFF" Stroke="#D5DEE8" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="3">
+                                        <Label Text="{Binding NamaObat}" FontAttributes="Bold" TextColor="#0F172A" FontSize="13"/>
+                                        <Label Grid.Column="1" Text="{Binding StatusBarcode}" TextColor="{Binding StatusColor}" FontSize="9" FontAttributes="Bold" VerticalOptions="Center"/>
+                                        <Label Grid.Row="1" Text="{Binding KodeObat}" TextColor="#64748B" FontSize="10"/>
+                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding BarcodeDisplay}" TextColor="#475569" FontSize="10"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 14" Padding="16">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="12">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="BARCODE MANUAL" FontSize="11" FontAttributes="Bold" TextColor="#53657A"/>
+                            <Label Text="Buat / ubah barcode" FontSize="14" FontAttributes="Bold" TextColor="#0F172A"/>
+                            <Label Text="Obat tanpa barcode diprioritaskan di daftar sebelah kiri." FontSize="10" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Border BackgroundColor="#F1F3F5" Stroke="#D5DEE8" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="12">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="OBAT TERPILIH" FontSize="9" FontAttributes="Bold" TextColor="#64748B"/>
+                                <Label x:Name="LblNamaObat" Text="Belum ada obat dipilih" FontSize="14" FontAttributes="Bold" TextColor="#0F172A"/>
+                                <Label x:Name="LblKodeObat" Text="-" FontSize="10" TextColor="#475569"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Nomor Barcode" FontSize="11" FontAttributes="Bold" TextColor="#334155"/>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="7">
+                                <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="44">
+                                    <Entry x:Name="TxtBarcode" Placeholder="Masukkan nomor barcode" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8" TextChanged="OnBarcodeTextChanged"/>
+                                </Border>
+                                <Button Grid.Column="1" Text="Generate" Clicked="OnGenerateClicked" BackgroundColor="#7C3AED" TextColor="White" HeightRequest="44" Padding="12,0"/>
+                            </Grid>
+                            <Label Text="Angka barcode harus unik. Barcode yang disimpan langsung masuk ke Master Obat." FontSize="10" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="7">
+                            <Label Text="Jumlah label" FontSize="11" FontAttributes="Bold" TextColor="#334155" VerticalOptions="Center"/>
+                            <Button Grid.Column="1" Text="−" Clicked="OnMinusClicked" BackgroundColor="#E7F0EE" TextColor="#334155" WidthRequest="40" Padding="0"/>
+                            <Border Grid.Column="2" BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 7" Padding="12,0" HeightRequest="40">
+                                <Label x:Name="LblCopies" Text="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#0F172A"/>
+                            </Border>
+                            <Button Grid.Column="3" Text="+" Clicked="OnPlusClicked" BackgroundColor="#E7F0EE" TextColor="#334155" WidthRequest="40" Padding="0"/>
+                        </Grid>
+                        <Button Text="Simpan Barcode ke Master Obat" Clicked="OnSaveClicked" BackgroundColor="#059669" TextColor="White" HeightRequest="44"/>
+                        <Button Text="Cetak Barcode" Clicked="OnPrintClicked" BackgroundColor="#0F766E" TextColor="White" HeightRequest="44"/>
+                        <Border BackgroundColor="#FBFDFF" Stroke="#D5DEE8" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="10">
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="PREVIEW" FontSize="9" FontAttributes="Bold" TextColor="#64748B"/>
+                                <GraphicsView x:Name="BarcodeGraphicsView" HeightRequest="95" HorizontalOptions="Fill"/>
+                                <Label x:Name="LblPreviewValue" Text="-" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="#0F172A"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+
+            <Border Grid.Column="2" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 14" Padding="16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="CARA PAKAI" FontSize="11" FontAttributes="Bold" TextColor="#53657A"/>
+                    <Border BackgroundColor="#EEF7FF" Stroke="#CFE0FF" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="1" FontSize="18" FontAttributes="Bold" TextColor="#0F766E"/>
+                            <Label Text="Pilih obat yang belum mempunyai barcode." FontSize="11" TextColor="#334155"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="#EEF7FF" Stroke="#CFE0FF" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="2" FontSize="18" FontAttributes="Bold" TextColor="#0F766E"/>
+                            <Label Text="Isi nomor barcode manual atau tekan Generate." FontSize="11" TextColor="#334155"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="#EEF7FF" Stroke="#CFE0FF" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="3" FontSize="18" FontAttributes="Bold" TextColor="#0F766E"/>
+                            <Label Text="Simpan. Barcode akan terbaca di kasir dan pembelian." FontSize="11" TextColor="#334155"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="Jika obat belum ada di Master Obat, gunakan + Obat Baru. Barcode dapat langsung diisi pada form tersebut." FontSize="11" TextColor="#64748B"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="ModalObatBaru" Grid.RowSpan="2" IsVisible="False" BackgroundColor="#990F172A" ZIndex="2000">
+            <Border WidthRequest="520" MaximumHeightRequest="650" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="22">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Tambah Obat + Barcode" FontSize="20" FontAttributes="Bold" TextColor="#0F172A"/>
+                            <Button Grid.Column="1" Text="✕" Clicked="OnTutupObatBaruClicked" BackgroundColor="#F1F3F5" TextColor="#334155" WidthRequest="40"/>
+                        </Grid>
+                        <Label Text="Gunakan fitur ini jika obat belum ada di Master Obat." FontSize="11" TextColor="#64748B"/>
+                        <VerticalStackLayout Spacing="4"><Label Text="Kode obat *" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Style="{StaticResource FormFieldBorder}"><Entry x:Name="TxtBaruKode" Placeholder="Kode obat *" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout>
+                        <VerticalStackLayout Spacing="4"><Label Text="Nama obat *" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Style="{StaticResource FormFieldBorder}"><Entry x:Name="TxtBaruNama" Placeholder="Nama obat *" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <VerticalStackLayout Spacing="4"><Label Text="Satuan" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Style="{StaticResource FormFieldBorder}"><Entry x:Name="TxtBaruSatuan" Placeholder="Botol / Strip / Sachet" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="4"><Label Text="Barcode (opsional)" FontSize="12" FontAttributes="Bold" TextColor="#334155"/><Border Style="{StaticResource FormFieldBorder}"><Entry x:Name="TxtBaruBarcode" Placeholder="Nomor barcode" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8"/></Border></VerticalStackLayout>
+                        </Grid>
+                        <HorizontalStackLayout HorizontalOptions="End" Spacing="8"><Button Text="Batal" Clicked="OnTutupObatBaruClicked" BackgroundColor="#E2E8F0" TextColor="#334155"/><Button Text="Simpan Obat" Clicked="OnSimpanObatBaruClicked" BackgroundColor="#059669" TextColor="White"/></HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

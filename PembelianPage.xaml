@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ApotekApp.PembelianPage" BackgroundColor="#F1F3F5">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="28">
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,18">
+<HorizontalStackLayout Grid.Column="1" Spacing="10">
+                <Button Text="🔄  Refresh" Clicked="OnRefreshClicked" BackgroundColor="White" TextColor="#334155" BorderColor="#B8C3CF" BorderWidth="1" CornerRadius="8" HeightRequest="42" Padding="16,0" />
+                <Button Text="＋  Pembelian Baru" Clicked="OnTambahPembelianClicked" BackgroundColor="#0F766E" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="42" Padding="18,0" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="10,0" Margin="0,0,0,16" HeightRequest="48">
+            <Entry x:Name="TxtSearch" TextColor="#0F172A" PlaceholderColor="#94A3B8" Placeholder="Cari nomor faktur atau supplier..." TextChanged="OnSearchTextChanged" BackgroundColor="Transparent" />
+        </Border>
+
+        <Border Grid.Row="2" BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="0" VerticalOptions="FillAndExpand">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Padding="16,13" ColumnDefinitions="190,*,180,180" BackgroundColor="#C7D0DA">
+                    <Label Text="NO. FAKTUR" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                    <Label Grid.Column="1" Text="SUPPLIER" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                    <Label Grid.Column="2" Text="TANGGAL" FontAttributes="Bold" FontSize="12" TextColor="#334155" />
+                    <Label Grid.Column="3" Text="TOTAL" FontAttributes="Bold" FontSize="12" TextColor="#334155" HorizontalTextAlignment="End" />
+                </Grid>
+                <CollectionView Grid.Row="1" x:Name="CvPembelianList" SelectionMode="None" VerticalOptions="FillAndExpand">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
+                            <Label Text="Belum ada transaksi pembelian" FontSize="16" FontAttributes="Bold" TextColor="#475569" HorizontalTextAlignment="Center" />
+                            <Label Text="Klik Pembelian Baru untuk mencatat stok masuk." FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="#C7D0DA" StrokeThickness="0,0,0,1" BackgroundColor="White" Padding="0">
+                                <Grid Padding="16,11" ColumnDefinitions="190,*,180,180" HeightRequest="56">
+                                    <Label Text="{Binding NoNota}" TextColor="#0F172A" FontAttributes="Bold" VerticalOptions="Center" />
+                                    <Label Grid.Column="1" Text="{Binding NamaSupplier}" TextColor="#334155" VerticalOptions="Center" />
+                                    <Label Grid.Column="2" Text="{Binding Tanggal}" TextColor="#475569" VerticalOptions="Center" />
+                                    <Label Grid.Column="3" Text="{Binding Total, StringFormat='Rp {0:N0}'}" TextColor="#059669" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+
+        <!-- Form Pembelian dengan ukuran dan gaya konsisten dengan form Master -->
+        <Grid x:Name="ModalLayout" Grid.RowSpan="3" IsVisible="False" BackgroundColor="#990F172A">
+            <Border HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="620" MaximumHeightRequest="720" BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="26">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="3">
+                                <Label Text="Pembelian Baru" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" />
+                                <Label Text="Isi informasi transaksi dan item obat yang diterima." FontSize="12" TextColor="#64748B" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1" Text="✕" Clicked="OnBatalClicked" BackgroundColor="#F1F3F5" TextColor="#475569" WidthRequest="40" HeightRequest="40" CornerRadius="8" Padding="0" />
+                        </Grid>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Nomor Faktur *" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                            <Border BackgroundColor="#F1F3F5" Stroke="#B8C3CF" StrokeThickness="1" HeightRequest="46" Padding="10,0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                                <Entry x:Name="TxtNoFaktur" Placeholder="Contoh: INV-2026-001" PlaceholderColor="#94A3B8" TextColor="#0F172A" BackgroundColor="Transparent" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Supplier *" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                            <Border Style="{StaticResource FormPickerBorder}">
+                                <Picker x:Name="CmbSupplier" Title="Pilih supplier" TextColor="#0F172A" TitleColor="#94A3B8" BackgroundColor="Transparent"  ZIndex="110"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Border BackgroundColor="#F1F3F5" Stroke="#C7D0DA" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="16">
+                            <VerticalStackLayout Spacing="12">
+                                <Label Text="Tambah Item Obat" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                                <Grid ColumnDefinitions="*,*,90,150,Auto" ColumnSpacing="10">
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="Nama Obat" FontSize="11" FontAttributes="Bold" TextColor="#64748B" />
+                                        <Border Style="{StaticResource FormPickerBorder}"><Picker x:Name="CmbObatSatu" Title="Pilih nama obat" TextColor="#0F172A" SelectedIndexChanged="OnObatSatuSelected"  ZIndex="110"/></Border>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                        <Label Text="Kode / Barcode" FontSize="11" FontAttributes="Bold" TextColor="#64748B" />
+                                        <Border BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" HeightRequest="44" Padding="8,0"><Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape><Entry x:Name="TxtKodeObat" Placeholder="Kode/barcode" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" /></Border>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="2" Spacing="5">
+                                        <Label Text="Jumlah" FontSize="11" FontAttributes="Bold" TextColor="#64748B" />
+                                        <Border BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" HeightRequest="44" Padding="8,0"><Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape><Entry x:Name="TxtQty" Placeholder="0" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" /></Border>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="3" Spacing="5">
+                                        <Label Text="Harga Beli" FontSize="11" FontAttributes="Bold" TextColor="#64748B" />
+                                        <Border BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" HeightRequest="44" Padding="8,0"><Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape><Entry x:Name="TxtHargaBeli" Placeholder="0" Keyboard="Numeric" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" /></Border>
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="4" Text="＋ Tambah" Clicked="OnTambahItemClicked" BackgroundColor="#0EA5E9" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="44" VerticalOptions="End" Padding="12,0" />
+                                </Grid>
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                                    <Label Text="Pilih Banyak Obat Sekaligus" FontSize="13" FontAttributes="Bold" TextColor="#0F172A" VerticalOptions="Center" />
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="5" VerticalOptions="Center">
+                                        <CheckBox x:Name="ChkPilihSemuaObat" CheckedChanged="OnPilihSemuaObatChanged" Color="#0F766E" />
+                                        <Label Text="Pilih semua" FontSize="11" FontAttributes="Bold" TextColor="#0F766E" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                                <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="46">
+                                    <Entry x:Name="TxtCariObatPembelian" Placeholder="Cari nama atau kode obat..." TextChanged="OnCariObatPembelianChanged" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" />
+                                </Border>
+                                <Border BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="0">
+                                    <Grid RowDefinitions="Auto,*">
+                                        <Grid Padding="8,6" ColumnDefinitions="35,*,80,100" BackgroundColor="#E8EDF2">
+                                            <Label Text="PILIH" FontSize="9" FontAttributes="Bold" TextColor="#475569"/>
+                                            <Label Grid.Column="1" Text="OBAT" FontSize="9" FontAttributes="Bold" TextColor="#475569"/>
+                                            <Label Grid.Column="2" Text="QTY" FontSize="9" FontAttributes="Bold" TextColor="#475569"/>
+                                            <Label Grid.Column="3" Text="HARGA" FontSize="9" FontAttributes="Bold" TextColor="#475569"/>
+                                        </Grid>
+                                    <CollectionView Grid.Row="1" x:Name="CvPilihObat" HeightRequest="190" SelectionMode="None">
+                                        <CollectionView.ItemTemplate><DataTemplate>
+                                            <Grid Padding="8,5" ColumnDefinitions="35,*,80,100" ColumnSpacing="8">
+                                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" VerticalOptions="Center" Color="#0F766E" />
+                                                <VerticalStackLayout Grid.Column="1" Spacing="0"><Label Text="{Binding NamaObat}" FontAttributes="Bold" TextColor="#0F172A"/><Label Text="{Binding KodeObat}" FontSize="10" TextColor="#64748B"/></VerticalStackLayout>
+                                                <Border Grid.Column="2" BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeShape="RoundRectangle 7" Padding="5,0" HeightRequest="38"><Entry Text="{Binding QtyText, Mode=TwoWay}" Keyboard="Numeric" Placeholder="Qty" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" /></Border>
+                                                <Border Grid.Column="3" BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeShape="RoundRectangle 7" Padding="5,0" HeightRequest="38"><Entry Text="{Binding HargaText, Mode=TwoWay}" Keyboard="Numeric" Placeholder="Harga beli" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" /></Border>
+                                            </Grid>
+                                        </DataTemplate></CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                    </Grid>
+                                </Border>
+                                <Button Text="＋ Masukkan Obat yang Dicentang" Clicked="OnTambahkanYangDipilihClicked" BackgroundColor="#7C3AED" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="42" HorizontalOptions="End" />
+                                <Label Text="Atau masukkan banyak sekaligus dengan format: KODE | QTY | HARGA BELI" FontSize="11" FontAttributes="Bold" TextColor="#475569" Margin="0,4,0,0" />
+                                <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,6" HeightRequest="92">
+                                    <Editor x:Name="TxtDaftarItem" HeightRequest="78" Placeholder="Satu baris per item: OBT001 | 10 | 2500&#10;OBT002 | 5 | 3500" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" />
+                                </Border>
+                                <Button Text="＋ Masukkan Semua Item" Clicked="OnTambahBanyakClicked" BackgroundColor="#7C3AED" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="42" HorizontalOptions="End" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Daftar Item" FontSize="13" FontAttributes="Bold" TextColor="#334155" />
+                            <Border BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 9" Padding="0">
+                                <CollectionView x:Name="CvItemPembelian" HeightRequest="170" SelectionMode="None">
+                                    <CollectionView.EmptyView><Label Text="Belum ada item obat." TextColor="#94A3B8" HorizontalOptions="Center" VerticalOptions="Center" /></CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate><DataTemplate><Grid Padding="12" ColumnDefinitions="*,80,150"><Label Text="{Binding NamaObat}" TextColor="#0F172A" FontAttributes="Bold" VerticalOptions="Center" /><Label Grid.Column="1" Text="{Binding Qty}" TextColor="#334155" VerticalOptions="Center" /><Label Grid.Column="2" Text="{Binding Subtotal, StringFormat='Rp {0:N0}'}" TextColor="#059669" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalOptions="Center" /></Grid></DataTemplate></CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="Catatan" FontSize="12" FontAttributes="Bold" TextColor="#334155" />
+                                <Border BackgroundColor="#F1F3F5" Stroke="#B8C3CF" StrokeThickness="1" HeightRequest="64" Padding="8"><Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape><Editor x:Name="TxtCatatan" Placeholder="Catatan (opsional)" TextColor="#0F172A" PlaceholderColor="#94A3B8" BackgroundColor="Transparent" AutoSize="TextChanges" /></Border>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="End" Spacing="3">
+                                <Label Text="TOTAL PEMBELIAN" FontSize="10" FontAttributes="Bold" TextColor="#64748B" HorizontalTextAlignment="End" />
+                                <Label x:Name="LblTotalPembelian" Text="Rp 0" FontSize="22" FontAttributes="Bold" TextColor="#059669" HorizontalTextAlignment="End" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" Margin="0,4,0,0">
+                            <Button Text="Batal" Clicked="OnBatalClicked" BackgroundColor="#F1F3F5" TextColor="#334155" BorderColor="#B8C3CF" BorderWidth="1" CornerRadius="8" HeightRequest="46" />
+                            <Button Grid.Column="1" Text="💾  Simpan Pembelian" Clicked="OnSimpanClicked" BackgroundColor="#16A34A" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="46" Padding="18,0" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

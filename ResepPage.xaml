@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApotekApp.ResepPage"
+             BackgroundColor="#F1F3F5">
+    <Grid Padding="20" RowDefinitions="Auto,*" RowSpacing="12">
+        <!-- Top Toolbar -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,150,Auto,Auto" ColumnSpacing="8">
+            <Border BackgroundColor="White" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="10,0" HeightRequest="44">
+                <Entry x:Name="TxtSearch" Placeholder="Cari nomor resep, pasien, dokter..." TextColor="#0F172A" PlaceholderColor="#94A3B8" TextChanged="OnSearchChanged"/>
+            </Border>
+            <Border Grid.Column="1" Style="{StaticResource FormPickerBorder}">
+                <Picker x:Name="CmbStatus" Title="Semua Status" TextColor="#0F172A" TitleColor="#64748B" VerticalOptions="Center" SelectedIndexChanged="OnFilterChanged" ZIndex="110">
+                    <Picker.Items>
+                        <x:String>Semua Status</x:String>
+                        <x:String>Menunggu</x:String>
+                        <x:String>Diproses</x:String>
+                        <x:String>Selesai</x:String>
+                        <x:String>Batal</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Border>
+            <Button Grid.Column="2" Text="↻ Refresh" Clicked="OnRefreshClicked" BackgroundColor="White" TextColor="#334155" BorderColor="#B8C3CF" BorderWidth="1"/>
+            <Button Grid.Column="3" Text="+ Input Resep" Clicked="OnTambahClicked" BackgroundColor="#0F766E" TextColor="White"/>
+        </Grid>
+
+        <!-- Table Data -->
+        <Border Grid.Row="1" BackgroundColor="White" Stroke="#C7D0DA" StrokeThickness="1" StrokeShape="RoundRectangle 12">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Padding="14" ColumnDefinitions="150,*,150,120,100" BackgroundColor="#E8EDF2">
+                    <Label Text="NO. RESEP" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/>
+                    <Label Grid.Column="1" Text="PASIEN" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/>
+                    <Label Grid.Column="2" Text="DOKTER" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/>
+                    <Label Grid.Column="3" Text="STATUS" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/>
+                    <Label Grid.Column="4" Text="AKSI" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/>
+                </Grid>
+                <CollectionView Grid.Row="1" x:Name="Cv" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                            <Label Text="Belum ada data resep" FontSize="16" FontAttributes="Bold" TextColor="#475569" HorizontalTextAlignment="Center"/>
+                            <Label Text="Klik + Input Resep untuk mencatat resep baru." FontSize="11" TextColor="#94A3B8" HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="12,9" ColumnDefinitions="150,*,150,120,100">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding NoResep}" FontAttributes="Bold" TextColor="#0F766E"/>
+                                    <Label Text="{Binding Tanggal}" FontSize="10" TextColor="#64748B"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1">
+                                    <Label Text="{Binding Pasien}" FontAttributes="Bold" TextColor="#0F172A"/>
+                                    <Label Text="{Binding Jenis}" FontSize="10" TextColor="#64748B"/>
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2" Text="{Binding Dokter}" VerticalOptions="Center" TextColor="#475569"/>
+                                <Label Grid.Column="3" Text="{Binding Status}" VerticalOptions="Center" TextColor="#059669" FontAttributes="Bold"/>
+                                <Button Grid.Column="4" Text="Selesai" Clicked="OnSelesaiClicked" CommandParameter="{Binding Id}" IsEnabled="{Binding CanFinish}" HeightRequest="32" BackgroundColor="#16A34A" TextColor="White"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+
+        <!-- Modal Input Resep -->
+        <Grid x:Name="Modal" Grid.RowSpan="2" IsVisible="False" BackgroundColor="#880F172A" ZIndex="1000">
+            <Border WidthRequest="580" MaximumHeightRequest="680" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="24">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="14">
+                        <!-- Header Modal -->
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Input Resep" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
+                                <Label Text="Pilih pasien dari Data Pelanggan, lalu lengkapi data resep." FontSize="11" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1" Text="✕" Clicked="OnBatalClicked" BackgroundColor="#F1F3F5" TextColor="#334155" WidthRequest="34" HeightRequest="34" CornerRadius="17" Padding="0"/>
+                        </Grid>
+
+                        <!-- Field 1: Nama Pasien -->
+                        <VerticalStackLayout Spacing="6">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <Label Text="Nama pasien *" FontSize="12" FontAttributes="Bold" TextColor="#334155" VerticalOptions="Center"/>
+                                <Button Grid.Column="1" Text="+ Pasien Baru" Clicked="OnTambahPasienBaruClicked" BackgroundColor="#E7F7F3" TextColor="#0F766E" HeightRequest="32" Padding="10,0" FontSize="11"/>
+                            </Grid>
+                            <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="10,0" HeightRequest="42">
+                                <Entry x:Name="TxtPasien" Placeholder="Ketik nama / No. RM pasien..." TextColor="#0F172A" PlaceholderColor="#94A3B8" TextChanged="OnPasienTextChanged" Focused="OnPasienFocused" VerticalOptions="Center" FontSize="13"/>
+                            </Border>
+                            <Border BackgroundColor="White" Stroke="#C7D0DA" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="0" HeightRequest="145" IsVisible="False" x:Name="PasienListBorder">
+                                <CollectionView x:Name="CvPasien" SelectionMode="Single" SelectionChanged="OnPasienSelected">
+                                    <CollectionView.EmptyView>
+                                        <Label Text="Pasien tidak ditemukan. Tambahkan pasien terlebih dahulu di menu Data Pelanggan." TextColor="#94A3B8" FontSize="11" HorizontalTextAlignment="Center" VerticalOptions="Center" Padding="15"/>
+                                    </CollectionView.EmptyView>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="10,7" ColumnDefinitions="110,*">
+                                                <Label Text="{Binding NoRM}" TextColor="#0F766E" FontAttributes="Bold" FontSize="11"/>
+                                                <Label Grid.Column="1" Text="{Binding Nama}" TextColor="#0F172A" FontAttributes="Bold" FontSize="12"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Border>
+                            <Label x:Name="LblPasienTerpilih" Text="Belum ada pasien dipilih" FontSize="10" TextColor="#64748B"/>
+                        </VerticalStackLayout>
+
+                        <!-- Field 2: Dokter / Klinik -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Dokter / Klinik" FontSize="12" FontAttributes="Bold" TextColor="#334155"/>
+                            <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="10,0" HeightRequest="42">
+                                <Entry x:Name="TxtDokter" Placeholder="Nama dokter / klinik" TextColor="#0F172A" PlaceholderColor="#94A3B8" VerticalOptions="Center" FontSize="13"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Field 3: SIP Dokter -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="SIP dokter (opsional)" FontSize="12" FontAttributes="Bold" TextColor="#334155"/>
+                            <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="10,0" HeightRequest="42">
+                                <Entry x:Name="TxtSIP" Placeholder="Nomor SIP" TextColor="#0F172A" PlaceholderColor="#94A3B8" VerticalOptions="Center" FontSize="13"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Field 4: Jenis Resep -->
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Jenis resep" FontSize="12" FontAttributes="Bold" TextColor="#334155"/>
+                            <Border Style="{StaticResource FormPickerBorder}">
+                                <Picker x:Name="CmbJenis" Title="Pilih jenis resep" TextColor="#0F172A" TitleColor="#64748B" VerticalOptions="Center" FontSize="13" ZIndex="110">
+                                    <Picker.Items>
+                                        <x:String>Resep Umum</x:String>
+                                        <x:String>Resep Kronis</x:String>
+                                        <x:String>Resep Racikan</x:String>
+                                    </Picker.Items>
+                                </Picker>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Field 5: Catatan -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Catatan verifikasi / pelayanan" FontSize="12" FontAttributes="Bold" TextColor="#334155"/>
+                            <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="10,8">
+                                <Editor x:Name="TxtCatatan" Placeholder="Catatan verifikasi / pelayanan" HeightRequest="80" TextColor="#0F172A" PlaceholderColor="#94A3B8" FontSize="13"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Action Buttons -->
+                        <HorizontalStackLayout HorizontalOptions="End" Spacing="8" Margin="0,8,0,0">
+                            <Button Text="Batal" Clicked="OnBatalClicked" BackgroundColor="#C7D0DA" TextColor="#334155" HeightRequest="38"/>
+                            <Button Text="Simpan Resep" Clicked="OnSimpanClicked" BackgroundColor="#16A34A" TextColor="White" HeightRequest="38"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,2 @@
+namespace ApotekApp.Models;
+public class MutasiStok { public int Id{get;set;} public DateTime Tanggal{get;set;}=DateTime.Now; public int ObatId{get;set;} public string Jenis{get;set;}=""; public int QtyMasuk{get;set;} public int QtyKeluar{get;set;} public int StokSetelah{get;set;} public string? Referensi{get;set;} public string? Batch{get;set;} public DateTime? Expired{get;set;} public decimal HargaSatuan{get;set;} public int? UserId{get;set;} public string? Keterangan{get;set;} }

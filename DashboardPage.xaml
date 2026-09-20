@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApotekApp.DashboardPage"
+             BackgroundColor="#F1F3F5">
+    <Grid Padding="20" RowDefinitions="Auto,*,Auto" RowSpacing="12">
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
+            <Border Grid.Column="0" Padding="16" BackgroundColor="White" Stroke="#DBEAFE" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout>
+                    <Label Text="PENJUALAN HARI INI" FontSize="10" FontAttributes="Bold" TextColor="#64748B" />
+                    <Label x:Name="LblSales" Text="Rp 0" FontSize="22" FontAttributes="Bold" TextColor="#0F766E" />
+                    <Label x:Name="LblSalesCount" Text="0 transaksi" FontSize="10" TextColor="#94A3B8" />
+                </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="1" Padding="16" BackgroundColor="White" Stroke="#DCFCE7" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout>
+                    <Label Text="PEMBELIAN HARI INI" FontSize="10" FontAttributes="Bold" TextColor="#64748B" />
+                    <Label x:Name="LblPurchase" Text="Rp 0" FontSize="22" FontAttributes="Bold" TextColor="#16A34A" />
+                    <Label x:Name="LblPurchaseCount" Text="0 faktur" FontSize="10" TextColor="#94A3B8" />
+                </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="2" Padding="16" BackgroundColor="White" Stroke="#FEF3C7" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout>
+                    <Label Text="STOK MENIPIS" FontSize="10" FontAttributes="Bold" TextColor="#64748B" />
+                    <Label x:Name="LblLow" Text="0" FontSize="22" FontAttributes="Bold" TextColor="#D97706" />
+                    <Label Text="Di bawah batas minimum" FontSize="10" TextColor="#94A3B8" />
+                </VerticalStackLayout>
+            </Border>
+            <Border Grid.Column="3" Padding="16" BackgroundColor="White" Stroke="#FEE2E2" StrokeShape="RoundRectangle 12">
+                <VerticalStackLayout>
+                    <Label Text="AKAN KADALUARSA" FontSize="10" FontAttributes="Bold" TextColor="#64748B" />
+                    <Label x:Name="LblExpiry" Text="0" FontSize="22" FontAttributes="Bold" TextColor="#DC2626" />
+                    <Label Text="Dalam 30 hari" FontSize="10" TextColor="#94A3B8" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="14" VerticalOptions="FillAndExpand">
+            <Border BackgroundColor="White" Stroke="#C7D0DA" StrokeShape="RoundRectangle 12" Padding="0" VerticalOptions="FillAndExpand">
+                <Grid RowDefinitions="Auto,*">
+                    <VerticalStackLayout Padding="16,14">
+                        <Label Text="Peringatan Persediaan" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="Prioritas stok minimum dan kedaluwarsa" FontSize="10" TextColor="#64748B" />
+                    </VerticalStackLayout>
+                    <CollectionView Grid.Row="1" x:Name="CvAlert" VerticalOptions="FillAndExpand">
+                        <CollectionView.EmptyView>
+                            <Label Text="✓ Tidak ada peringatan." HorizontalOptions="Center" VerticalOptions="Center" TextColor="#059669" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="12,9" ColumnDefinitions="*,90,100">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Nama}" FontAttributes="Bold" TextColor="#0F172A" />
+                                        <Label Text="{Binding Kode}" FontSize="9" TextColor="#64748B" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="1" Text="{Binding StokText}" TextColor="#D97706" VerticalOptions="Center" />
+                                    <Label Grid.Column="2" Text="{Binding ExpText}" TextColor="#DC2626" FontSize="10" VerticalOptions="Center" HorizontalTextAlignment="End" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" BackgroundColor="White" Stroke="#C7D0DA" StrokeShape="RoundRectangle 12" Padding="0" VerticalOptions="FillAndExpand">
+                <Grid RowDefinitions="Auto,*">
+                    <VerticalStackLayout Padding="16,14">
+                        <Label Text="Aktivitas Terakhir" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="Transaksi penjualan terbaru" FontSize="10" TextColor="#64748B" />
+                    </VerticalStackLayout>
+                    <CollectionView Grid.Row="1" x:Name="CvSales" VerticalOptions="FillAndExpand">
+                        <CollectionView.EmptyView>
+                            <Label Text="Belum ada transaksi." HorizontalOptions="Center" VerticalOptions="Center" TextColor="#94A3B8" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="12,9" ColumnDefinitions="*,110">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Nota}" FontAttributes="Bold" TextColor="#0F766E" />
+                                        <Label Text="{Binding Waktu}" FontSize="9" TextColor="#64748B" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="1" Text="{Binding Total}" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="#0F172A" FontAttributes="Bold" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Padding="2,0">
+            <VerticalStackLayout Spacing="1">
+                <Label x:Name="LblWelcome" Text="" FontSize="11" TextColor="#64748B" />
+                <Label x:Name="LblLoginInfo" Text="" FontSize="10" TextColor="#94A3B8" />
+            </VerticalStackLayout>
+            <Label Grid.Column="1" Text="copyright@MY" FontSize="10" TextColor="#64748B" VerticalOptions="End" HorizontalTextAlignment="End" />
+        </Grid>
+    </Grid>
+</ContentPage>

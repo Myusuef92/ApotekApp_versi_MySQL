@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApotekApp.TransaksiPage"
+             Title="Penjualan"
+             BackgroundColor="#F1F3F5">
+
+    <Grid RowDefinitions="*" ColumnDefinitions="*, 320" Margin="15" ColumnSpacing="15">
+
+        <!-- KIRI: AREA PENCARIAN & TABEL KERANJANG -->
+        <Grid Grid.Column="0" RowDefinitions="Auto, *" RowSpacing="15">
+
+            <!-- Box Input Pencarian / Scan Barcode -->
+            <Frame Grid.Row="0" CornerRadius="8" Padding="15" BackgroundColor="White" HasShadow="True">
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Label Text="Scan Barcode / Kode Obat / Nama Obat (Tekan Enter)" FontSize="12" FontAttributes="Bold" TextColor="#374151"/>
+                        <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="48">
+                            <Entry x:Name="TxtBarcode" Placeholder="Scan barcode, masukkan kode, atau nama obat..." Completed="OnScanBarcodeCompleted" BackgroundColor="Transparent" TextColor="#0F172A" PlaceholderColor="#94A3B8"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1" 
+                            Text="Cari" 
+                            VerticalOptions="End" 
+                            BackgroundColor="#0F766E" 
+                            TextColor="White" 
+                            FontAttributes="Bold"
+                            Clicked="OnCariObatClicked"/>
+                </Grid>
+            </Frame>
+
+            <!-- Tabel Daftar Keranjang Belanja -->
+            <Frame Grid.Row="1" CornerRadius="8" Padding="15" BackgroundColor="White" HasShadow="True">
+                <Grid RowDefinitions="Auto, *">
+
+                    <!-- Header Tabel -->
+                    <Grid Grid.Row="0" ColumnDefinitions="40, *, 80, 100, 100, 50" Padding="0,0,0,10">
+                        <Label Grid.Column="0" Text="No" FontAttributes="Bold" TextColor="#374151"/>
+                        <Label Grid.Column="1" Text="Nama Obat" FontAttributes="Bold" TextColor="#374151"/>
+                        <Label Grid.Column="2" Text="Qty" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#374151"/>
+                        <Label Grid.Column="3" Text="Harga" FontAttributes="Bold" HorizontalOptions="End" TextColor="#374151"/>
+                        <Label Grid.Column="4" Text="Subtotal" FontAttributes="Bold" HorizontalOptions="End" TextColor="#374151"/>
+                        <Label Grid.Column="5" Text="Aksi" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#374151"/>
+                    </Grid>
+
+                    <!-- Item Keranjang -->
+                    <ScrollView Grid.Row="1">
+                        <StackLayout x:Name="ContainerKeranjang" Spacing="8">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="40, *, 80, 100, 100, 50" VerticalOptions="Center">
+                                        <Label Grid.Column="0" Text="{Binding No}" VerticalOptions="Center" TextColor="Black"/>
+                                        <Label Grid.Column="1" Text="{Binding NamaObat}" FontAttributes="Bold" VerticalOptions="Center" TextColor="Black"/>
+
+                                        <Border Grid.Column="2" BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1" StrokeShape="RoundRectangle 7" Padding="4,0" HeightRequest="38" VerticalOptions="Center">
+                                            <Entry Text="{Binding Qty}" Keyboard="Numeric" HorizontalTextAlignment="Center" TextChanged="OnQtyItemChanged" TextColor="#0F172A" BackgroundColor="Transparent" PlaceholderColor="#94A3B8"/>
+                                        </Border>
+
+                                        <Label Grid.Column="3" Text="{Binding Harga, StringFormat='Rp {0:N0}'}" HorizontalOptions="End" VerticalOptions="Center" TextColor="Black"/>
+                                        <Label Grid.Column="4" Text="{Binding Subtotal, StringFormat='Rp {0:N0}'}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" TextColor="Black"/>
+
+                                        <Button Grid.Column="5" 
+                                                Text="X" 
+                                                BackgroundColor="#FEE2E2" 
+                                                TextColor="#DC2626" 
+                                                Padding="0" 
+                                                HeightRequest="32" 
+                                                WidthRequest="32" 
+                                                Clicked="OnHapusItemClicked"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </ScrollView>
+
+                </Grid>
+            </Frame>
+
+        </Grid>
+
+        <!-- KANAN: RINGKASAN & PEMBAYARAN -->
+        <Frame Grid.Column="1" CornerRadius="8" Padding="15" BackgroundColor="White" HasShadow="True">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="RINGKASAN TRANSAKSI" FontAttributes="Bold" FontSize="14" TextColor="#111827"/>
+
+                <!-- Subtotal -->
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Grid.Column="0" Text="TOTAL" FontSize="12" TextColor="#4B5563" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" x:Name="LblTotal" Text="Rp 0" FontAttributes="Bold" FontSize="15" TextColor="#111827"/>
+                </Grid>
+
+                <!-- Diskon Input -->
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="DISKON (Rp)" FontSize="12" TextColor="#4B5563"/>
+                    <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="46">
+                        <Entry x:Name="TxtDiskon" Text="0" Keyboard="Numeric" HorizontalTextAlignment="End" TextChanged="OnDiskonChanged" TextColor="#0F172A" BackgroundColor="Transparent"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- PPN Display ( x:Name="LblLabelPpn" dan x:Name="LblPpn" ) -->
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Grid.Column="0" x:Name="LblLabelPpn" Text="PPN (0%)" FontSize="12" TextColor="#4B5563" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" x:Name="LblPpn" Text="Rp 0" FontAttributes="Bold" FontSize="13" TextColor="#4B5563"/>
+                </Grid>
+
+                <!-- Grand Total -->
+                <Frame BackgroundColor="#EFF6FF" BorderColor="#BFDBFE" Padding="12" CornerRadius="8">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="GRAND TOTAL" FontSize="11" FontAttributes="Bold" TextColor="#1E40AF"/>
+                        <Label x:Name="LblGrandTotal" Text="Rp 0" FontSize="22" FontAttributes="Bold" TextColor="#1557D6"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Input Nominal Bayar -->
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="NOMINAL BAYAR (Rp)" FontSize="12" TextColor="#4B5563"/>
+                    <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="10,0" HeightRequest="46">
+                        <Entry x:Name="TxtNominalBayar" Text="0" Keyboard="Numeric" HorizontalTextAlignment="End" TextChanged="OnNominalBayarChanged" TextColor="#0F172A" BackgroundColor="Transparent"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Kembalian -->
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Grid.Column="0" Text="KEMBALIAN" FontSize="12" TextColor="#4B5563" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" x:Name="LblKembalian" Text="Rp 0" FontAttributes="Bold" FontSize="16" TextColor="#16A34A"/>
+                </Grid>
+
+                <!-- Tombol Aksi -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,5,0,0">
+                    <Button Grid.Column="0" Text="HOLD" BackgroundColor="#D97706" TextColor="White" FontAttributes="Bold" Clicked="OnHoldClicked"/>
+                    <Button Grid.Column="1" Text="BATAL" BackgroundColor="#4B5563" TextColor="White" FontAttributes="Bold" Clicked="OnBatalClicked"/>
+                </Grid>
+
+                <Button Text="BAYAR" 
+                        BackgroundColor="#0F766E" 
+                        TextColor="White" 
+                        FontAttributes="Bold" 
+                        HeightRequest="45" 
+                        Clicked="OnBayarCetakClicked"/>
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- MODAL POPUP STRUK PENJUALAN -->
+        <Grid x:Name="ModalStruk" Grid.ColumnSpan="2" IsVisible="False" BackgroundColor="#80000000" VerticalOptions="Fill" HorizontalOptions="Fill">
+            <Frame x:Name="FrameStruk" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="320" CornerRadius="12" Padding="15" BackgroundColor="White">
+                <ScrollView HeightRequest="480">
+                    <StackLayout Spacing="6">
+                        <Button Text="✕" Clicked="OnSelesaiTanpaCetakClicked" HorizontalOptions="End" BackgroundColor="#F1F3F5" TextColor="#475569" WidthRequest="38" HeightRequest="38" Padding="0"/>
+                        <Label x:Name="LblStrukNamaApotek" Text="APOTEK SEHAT" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" TextColor="Black"/>
+                        <Label x:Name="LblStrukAlamat" Text="Jl. Kesehatan No. 1, Jakarta" FontSize="11" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Gray"/>
+                        <BoxView HeightRequest="1" Color="Black" Margin="0,4"/>
+
+                        <Label x:Name="LblStrukNota" Text="Nota: -" FontSize="11" TextColor="Black"/>
+                        <Label x:Name="LblStrukTanggal" Text="Tgl: -" FontSize="11" TextColor="Black"/>
+                        <BoxView HeightRequest="1" Color="#E5E7EB" Margin="0,4"/>
+
+                        <Label x:Name="LblStrukDetail" Text="Detail obat..." FontSize="11" TextColor="Black" LineBreakMode="WordWrap"/>
+                        <BoxView HeightRequest="1" Color="#E5E7EB" Margin="0,4"/>
+
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="3">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Subtotal" FontSize="11" TextColor="Black"/>
+                            <Label Grid.Row="0" Grid.Column="1" x:Name="LblStrukTotal" Text="Rp 0" FontSize="11" TextColor="Black" HorizontalOptions="End"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="Diskon" FontSize="11" TextColor="Black"/>
+                            <Label Grid.Row="1" Grid.Column="1" x:Name="LblStrukDiskon" Text="Rp 0" FontSize="11" TextColor="Black" HorizontalOptions="End"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" x:Name="LblStrukLabelPpn" Text="PPN" FontSize="11" TextColor="Black"/>
+                            <Label Grid.Row="2" Grid.Column="1" x:Name="LblStrukPpn" Text="Rp 0" FontSize="11" TextColor="Black" HorizontalOptions="End"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Text="Grand Total" FontAttributes="Bold" FontSize="12" TextColor="Black"/>
+                            <Label Grid.Row="3" Grid.Column="1" x:Name="LblStrukGrandTotal" FontAttributes="Bold" FontSize="12" TextColor="Black" HorizontalOptions="End"/>
+
+                            <Label Grid.Row="4" Grid.Column="0" Text="Bayar" FontSize="11" TextColor="Black"/>
+                            <Label Grid.Row="4" Grid.Column="1" x:Name="LblStrukBayar" Text="Rp 0" FontSize="11" TextColor="Black" HorizontalOptions="End"/>
+
+                            <Label Grid.Row="5" Grid.Column="0" Text="Kembali" FontAttributes="Bold" FontSize="11" TextColor="Black"/>
+                            <Label Grid.Row="5" Grid.Column="1" x:Name="LblStrukKembali" FontAttributes="Bold" FontSize="11" TextColor="#16A34A" HorizontalOptions="End"/>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="Black" Margin="0,4"/>
+                        <Label x:Name="LblStrukFooter" Text="-- Terima Kasih --" FontSize="10" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Gray"/>
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,10,0,0">
+                            <Button Grid.Column="0" 
+                                    Text="Cetak Struk" 
+                                    BackgroundColor="#0F766E" 
+                                    TextColor="White" 
+                                    FontAttributes="Bold"
+                                    CornerRadius="6"
+                                    Clicked="OnCetakStrukClicked"/>
+
+                            <Button Grid.Column="1" 
+                                    Text="Tanpa Cetak" 
+                                    BackgroundColor="#4B5563" 
+                                    TextColor="White" 
+                                    FontAttributes="Bold"
+                                    CornerRadius="6"
+                                    Clicked="OnSelesaiTanpaCetakClicked"/>
+                        </Grid>
+
+                    </StackLayout>
+                </ScrollView>
+            </Frame>
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

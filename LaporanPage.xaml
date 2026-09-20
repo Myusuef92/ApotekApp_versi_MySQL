@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ApotekApp.LaporanPage" BackgroundColor="#F1F3F5">
+  <AbsoluteLayout>
+<Grid Padding="20" RowDefinitions="Auto,Auto,*" RowSpacing="12" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+
+    <!-- AKSI CEPAT: tetap di baris sendiri sehingga tidak ikut terdorong dropdown -->
+    <HorizontalStackLayout Grid.Row="0" HorizontalOptions="End" Spacing="8">
+      <Button Text="Penjualan" Clicked="OnLaporanPenjualanClicked" BackgroundColor="#0F766E" TextColor="White" HeightRequest="42"/>
+      <Button Text="Pembelian" Clicked="OnLaporanPembelianClicked" BackgroundColor="#0F8A72" TextColor="White" HeightRequest="42"/>
+      <Button Text="↻ Refresh" Clicked="OnTampilkanClicked" BackgroundColor="White" TextColor="#334155" BorderColor="#B8C3CF" BorderWidth="1" HeightRequest="42"/>
+    </HorizontalStackLayout>
+
+    <!-- FILTER: dropdown menggunakan AbsoluteLayout agar tidak menggeser tanggal/tombol -->
+    <Border Grid.Row="1" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 16" Padding="16">
+      <Grid ColumnDefinitions="1.15*,1*,1*,Auto,Auto,Auto" ColumnSpacing="10">
+        <VerticalStackLayout Spacing="5" ZIndex="100">
+          <Label Text="JENIS LAPORAN" FontSize="10" FontAttributes="Bold" TextColor="#53657A"/>
+          <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeThickness="1.5" StrokeShape="RoundRectangle 9" Padding="0" HeightRequest="44">
+            <Button x:Name="BtnJenisLaporan" Text="Penjualan  ▾" Clicked="OnJenisLaporanToggleClicked"
+                    BackgroundColor="Transparent" TextColor="#14213D" BorderWidth="0"
+                    HorizontalOptions="Fill" HeightRequest="44" Padding="12,0"/>
+          </Border>
+          <Picker x:Name="JenisLaporanPicker" IsVisible="False" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Column="1" Spacing="5">
+          <Label Text="TANGGAL MULAI" FontSize="10" FontAttributes="Bold" TextColor="#53657A"/>
+          <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeShape="RoundRectangle 9" Padding="9,0">
+            <DatePicker x:Name="TglMulaiPicker" Format="dd/MM/yyyy" TextColor="#14213D"/>
+          </Border>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Column="2" Spacing="5">
+          <Label Text="TANGGAL SELESAI" FontSize="10" FontAttributes="Bold" TextColor="#53657A"/>
+          <Border BackgroundColor="#F8FAFC" Stroke="#B8C3CF" StrokeShape="RoundRectangle 9" Padding="9,0">
+            <DatePicker x:Name="TglSelesaiPicker" Format="dd/MM/yyyy" TextColor="#14213D"/>
+          </Border>
+        </VerticalStackLayout>
+
+        <Button Grid.Column="3" Text="Tampilkan" Clicked="OnTampilkanClicked" BackgroundColor="#0F766E" TextColor="White" VerticalOptions="End" HeightRequest="44"/>
+        <Button Grid.Column="4" Text="Excel XLSX" Clicked="OnExportExcelClicked" BackgroundColor="#0F8A72" TextColor="White" VerticalOptions="End" HeightRequest="44"/>
+        <Button Grid.Column="5" Text="▣ Cetak Laporan" Clicked="OnCetakClicked" BackgroundColor="#6D3FE8" TextColor="White" VerticalOptions="End" HeightRequest="44"/>
+      </Grid>
+    </Border>
+
+
+    <Grid Grid.Row="2" RowDefinitions="Auto,*" RowSpacing="12">
+      <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
+        <Border BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 12" Padding="16"><VerticalStackLayout><Label Text="TOTAL DATA" FontSize="10" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="TotalTransaksiLabel" Text="0 Data" FontSize="23" FontAttributes="Bold" TextColor="#0F766E"/></VerticalStackLayout></Border>
+        <Border Grid.Column="1" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 12" Padding="16"><VerticalStackLayout><Label Text="TOTAL NOMINAL" FontSize="10" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="TotalNominalLabel" Text="Rp 0" FontSize="23" FontAttributes="Bold" TextColor="#059669"/></VerticalStackLayout></Border>
+        <Border Grid.Column="2" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 12" Padding="16"><VerticalStackLayout><Label Text="RINGKASAN" FontSize="10" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="RataRataLabel" Text="Rp 0" FontSize="14" FontAttributes="Bold" TextColor="#6D3FE8"/></VerticalStackLayout></Border>
+        <Border Grid.Column="3" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 12" Padding="16"><VerticalStackLayout><Label Text="LABA KOTOR" FontSize="10" FontAttributes="Bold" TextColor="#64748B"/><Label x:Name="LabaKotorLabel" Text="Rp 0" FontSize="18" FontAttributes="Bold" TextColor="#EA580C"/></VerticalStackLayout></Border>
+      </Grid>
+      <Border Grid.Row="1" BackgroundColor="White" Stroke="#AEBAC7" StrokeThickness="1.5" StrokeShape="RoundRectangle 14" Padding="0">
+        <Grid RowDefinitions="Auto,*,Auto">
+          <Grid Padding="14,12" ColumnDefinitions="145,125,*,70,150,150" BackgroundColor="#E8EDF2">
+            <Label Text="TANGGAL" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/><Label Grid.Column="1" Text="NOMOR" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/><Label Grid.Column="2" Text="NAMA OBAT" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/><Label Grid.Column="3" Text="QTY" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/><Label Grid.Column="4" Text="NOMINAL" FontAttributes="Bold" FontSize="10" TextColor="#53657A" HorizontalTextAlignment="End"/><Label Grid.Column="5" Text="SUPPLIER / KETERANGAN" FontAttributes="Bold" FontSize="10" TextColor="#53657A"/>
+          </Grid>
+          <CollectionView Grid.Row="1" x:Name="LaporanCollectionView" SelectionMode="None">
+            <CollectionView.EmptyView><VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="4"><Label Text="Belum ada data laporan" FontSize="17" FontAttributes="Bold" TextColor="#475569" HorizontalTextAlignment="Center"/><Label Text="Atur periode dan jenis laporan, lalu tekan Tampilkan." FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center"/></VerticalStackLayout></CollectionView.EmptyView>
+            <CollectionView.ItemTemplate><DataTemplate><Grid Padding="14,8" ColumnDefinitions="145,125,*,70,150,150" MinimumHeightRequest="54"><Label Text="{Binding TanggalFormatted}" TextColor="#53657A" VerticalOptions="Center" FontSize="12"/><Label Grid.Column="1" Text="{Binding NomorNota}" TextColor="#14213D" FontAttributes="Bold" VerticalOptions="Center" FontSize="12"/><Label Grid.Column="2" Text="{Binding NamaObat}" TextColor="#334155" LineBreakMode="TailTruncation" VerticalOptions="Center" FontSize="12"/><Label Grid.Column="3" Text="{Binding QtyFormatted}" TextColor="#334155" VerticalOptions="Center" FontSize="12"/><Label Grid.Column="4" Text="{Binding TotalRpFormatted, StringFormat='Rp {0}'}" TextColor="#059669" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalOptions="Center" FontSize="12"/><Label Grid.Column="5" Text="{Binding NamaPihak}" TextColor="#53657A" LineBreakMode="TailTruncation" VerticalOptions="Center" FontSize="12"/></Grid></DataTemplate></CollectionView.ItemTemplate>
+          </CollectionView>
+          <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" Padding="12,8" BackgroundColor="#F1F3F5">
+            <Button x:Name="BtnPrevReport" Text="‹ Sebelumnya" Clicked="OnPrevReportClicked" BackgroundColor="#C7D0DA" TextColor="#334155" HeightRequest="36" Padding="14,0" IsEnabled="False"/>
+            <Label x:Name="LblReportPage" Grid.Column="1" Text="Halaman 1 dari 1 • 0 data" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="11" TextColor="#475569"/>
+            <Button x:Name="BtnNextReport" Grid.Column="2" Text="Berikutnya ›" Clicked="OnNextReportClicked" BackgroundColor="#0F766E" TextColor="White" HeightRequest="36" Padding="14,0" IsEnabled="False"/>
+          </Grid>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+    <Border x:Name="JenisOptionsPanel" IsVisible="False" BackgroundColor="White"
+            Stroke="#94A3B8" StrokeThickness="1.5" StrokeShape="RoundRectangle 10" Padding="5"
+            WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Start" ZIndex="999"
+            AbsoluteLayout.LayoutBounds="36,126,250,220" AbsoluteLayout.LayoutFlags="None">
+      <VerticalStackLayout Spacing="1">
+        <Button Text="Penjualan" Clicked="OnJenisOptionClicked" CommandParameter="Penjualan" BackgroundColor="Transparent" TextColor="#14213D" HeightRequest="36"/>
+        <Button Text="Pembelian" Clicked="OnJenisOptionClicked" CommandParameter="Pembelian" BackgroundColor="Transparent" TextColor="#14213D" HeightRequest="36"/>
+        <Button Text="Laba / Rugi" Clicked="OnJenisOptionClicked" CommandParameter="Laba" BackgroundColor="Transparent" TextColor="#14213D" HeightRequest="36"/>
+        <Button Text="Stok Obat" Clicked="OnJenisOptionClicked" CommandParameter="Stok Obat" BackgroundColor="Transparent" TextColor="#14213D" HeightRequest="36"/>
+        <Button Text="Modal &amp; Keuntungan" Clicked="OnJenisOptionClicked" CommandParameter="Modal &amp; Keuntungan" BackgroundColor="Transparent" TextColor="#14213D" HeightRequest="36"/>
+      </VerticalStackLayout>
+    </Border>
+  </AbsoluteLayout>
+</ContentPage>

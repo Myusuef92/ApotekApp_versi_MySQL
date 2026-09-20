@@ -1,0 +1,2 @@
+namespace ApotekApp.Models;
+public class Pelanggan { public int Id{get;set;} public string NoRM{get;set;}=""; public string Nama{get;set;}=""; public string? NIK{get;set;} public string? JenisKelamin{get;set;} public DateTime? TanggalLahir{get;set;} public string? Telepon{get;set;} public string? Alamat{get;set;} public string? Alergi{get;set;} public string? Catatan{get;set;} public string? SatusehatId{get;set;} public bool Aktif{get;set;}=true; }

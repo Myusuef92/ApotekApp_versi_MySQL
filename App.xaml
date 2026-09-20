@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApotekApp.App">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+        <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
+      <Style x:Key="NavMenuButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="TextColor" Value="#334155"/>
+        <Setter Property="HorizontalOptions" Value="Fill"/>
+        <Setter Property="Padding" Value="14,0"/>
+        <Setter Property="HeightRequest" Value="42"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+      </Style>
+
+
+      <Style x:Key="SectionTitle" TargetType="Label">
+        <Setter Property="TextColor" Value="#12302D"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="18"/>
+      </Style>
+
+      <Style x:Key="SectionSubtitle" TargetType="Label">
+        <Setter Property="TextColor" Value="#647873"/>
+        <Setter Property="FontSize" Value="11"/>
+      </Style>
+
+      <Style x:Key="PrimaryActionButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#0F766E"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="HeightRequest" Value="42"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+      </Style>
+
+      <Style x:Key="SecondaryActionButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="White"/>
+        <Setter Property="TextColor" Value="#28413E"/>
+        <Setter Property="BorderColor" Value="#B8C3CF"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="HeightRequest" Value="42"/>
+      </Style>
+
+
+      <Style TargetType="Button">
+        <Setter Property="CornerRadius" Value="9" />
+        <Setter Property="HeightRequest" Value="42" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="14,0" />
+      </Style>
+
+      <!-- Form controls: clean, consistent and designed to sit inside Border field containers. -->
+      <Style TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="#0F172A" />
+        <Setter Property="PlaceholderColor" Value="#94A3B8" />
+        <Setter Property="HeightRequest" Value="46" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="13" />
+      </Style>
+
+      <!-- Standard dropdown/picker: consistent size, spacing and readable text on every form. -->
+      <Style TargetType="Picker">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="#0F172A" />
+        <Setter Property="TitleColor" Value="#64748B" />
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="MinimumHeightRequest" Value="48" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin" Value="2,0" />
+      </Style>
+
+      <Style TargetType="DatePicker">
+        <Setter Property="TextColor" Value="#0F172A" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="HeightRequest" Value="46" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="13" />
+      </Style>
+
+      <Style TargetType="TimePicker">
+        <Setter Property="TextColor" Value="#0F172A" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="HeightRequest" Value="46" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="13" />
+      </Style>
+
+      <Style TargetType="Editor">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="#0F172A" />
+        <Setter Property="PlaceholderColor" Value="#94A3B8" />
+        <Setter Property="MinimumHeightRequest" Value="72" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="13" />
+      </Style>
+
+      <Style x:Key="FormFieldBorder" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="#F8FAFC" />
+        <Setter Property="Stroke" Value="#B8C3CF" />
+        <Setter Property="StrokeThickness" Value="1.5" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 9" />
+      </Style>
+
+      <Style x:Key="FormFieldLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="#334155" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontAttributes" Value="Bold" />
+      </Style>
+
+      <Style x:Key="FormPickerBorder" TargetType="Border" BasedOn="{StaticResource FormFieldBorder}">
+        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="Padding" Value="6,0,6,0" />
+        <Setter Property="ZIndex" Value="100" />
+      </Style>
+
+      <Style x:Key="FormPickerContainer" TargetType="VerticalStackLayout">
+        <Setter Property="ZIndex" Value="100" />
+      </Style>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

@@ -1,0 +1,2 @@
+namespace ApotekApp.Models;
+public class Resep { public int Id{get;set;} public string NoResep{get;set;}=""; public DateTime Tanggal{get;set;}=DateTime.Now; public int? PelangganId{get;set;} public string? NamaDokter{get;set;} public string? SipDokter{get;set;} public string Status{get;set;}="Menunggu"; public string JenisResep{get;set;}="Resep Umum"; public string? Catatan{get;set;} public int? UserId{get;set;} }

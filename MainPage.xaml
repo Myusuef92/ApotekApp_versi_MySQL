@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApotekApp.MainPage"
+             BackgroundColor="#F1F3F5"
+             NavigationPage.HasNavigationBar="False">
+    <Grid ColumnDefinitions="250,*">
+        <Border Grid.Column="0" BackgroundColor="#102A2A" StrokeThickness="0" Padding="14,18">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <VerticalStackLayout Spacing="3" Margin="8,12,8,24">
+                    <Label Text="APOTEK" TextColor="White" FontSize="22" FontAttributes="Bold"/>
+                    <Label Text="PHARMACY MANAGEMENT SYSTEM" TextColor="#9CC7C1" FontSize="9" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+                <ScrollView Grid.Row="1">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="OPERASIONAL" TextColor="#71908B" FontSize="10" FontAttributes="Bold" Margin="10,4,0,5"/>
+                        <Button x:Name="BtnDashboard" Text="▣  Dashboard" Clicked="OnMenuDashboardClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnPenjualan" Text="▤  Kasir / Penjualan" Clicked="OnMenuPenjualanClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnPembelian" Text="▥  Pembelian" Clicked="OnMenuPembelianClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnResep" Text="✚  Resep &amp; Pelayanan" Clicked="OnMenuResepClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnStok" Text="◫  Persediaan &amp; Mutasi" Clicked="OnMenuStokClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Label Text="MASTER DATA" TextColor="#71908B" FontSize="10" FontAttributes="Bold" Margin="10,16,0,5"/>
+                        <Button x:Name="BtnObat" Text="▦  Master Data Obat" Clicked="OnMenuObatClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnPelanggan" Text="♙  Data Pelanggan" Clicked="OnMenuPelangganClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnSupplier" Text="▤  Master Supplier" Clicked="OnMenuSupplierClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnUser" Text="♟  User Pengguna" Clicked="OnMenuUserClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnBarcode" Text="▥  Barcode Manual" Clicked="OnMenuBarcodeClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Label Text="LAPORAN &amp; SISTEM" TextColor="#71908B" FontSize="10" FontAttributes="Bold" Margin="10,16,0,5"/>
+                        <Button x:Name="BtnLaporan" Text="▤  Laporan &amp; Analitik" Clicked="OnMenuLaporanClicked" Style="{StaticResource NavMenuButton}"/>
+                        <Button x:Name="BtnSetting" Text="⚙  Pengaturan" Clicked="OnMenuSettingClicked" Style="{StaticResource NavMenuButton}"/>
+                    </VerticalStackLayout>
+                </ScrollView>
+                <VerticalStackLayout Grid.Row="2" Spacing="8" Margin="0,12,0,0">
+                    <Border BackgroundColor="#173A38" Stroke="#27504C" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="11">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Border WidthRequest="36" HeightRequest="36" BackgroundColor="#0F766E" StrokeThickness="0" StrokeShape="RoundRectangle 18">
+                                <Label Text="U" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0" VerticalOptions="Center" Spacing="1">
+                                <Label x:Name="LblSidebarUser" Text="Pengguna" TextColor="White" FontSize="12" FontAttributes="Bold" LineBreakMode="TailTruncation"/>
+                                <Label x:Name="LblSidebarRole" Text="Kasir" TextColor="#7DD3C7" FontSize="10"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                    <Button Text="↪  Keluar" Clicked="OnLogoutClicked" BackgroundColor="#7F1D1D" TextColor="White" HeightRequest="38" CornerRadius="9"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+            <Border Grid.Row="0" BackgroundColor="White" Stroke="#C7D0DA" StrokeThickness="1" Padding="24,17">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Spacing="2">
+                        <Label x:Name="LblPageTitle" Text="DASHBOARD" FontSize="19" FontAttributes="Bold" TextColor="#12302D"/>
+                        <Label Text="" FontSize="1" TextColor="Transparent"/>
+                    </VerticalStackLayout>
+                    <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                        <Border BackgroundColor="#E7F7F3" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="10,7">
+                            <Label Text="● SISTEM AKTIF" TextColor="#0F766E" FontSize="10" FontAttributes="Bold"/>
+                        </Border>
+                        <Label x:Name="LblHeaderUser" Text="Pengguna" TextColor="#28413E" FontSize="12" FontAttributes="Bold" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            <ContentView Grid.Row="1" x:Name="MainContent" BackgroundColor="#F1F3F5"/>
+        </Grid>
+    </Grid>
+</ContentPage>
